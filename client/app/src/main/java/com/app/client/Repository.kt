@@ -12,7 +12,9 @@ class Repository {
         userId = id
     }
 
-    public fun initializeWithUserRegistration() {
+    public fun initializeWithUserRegistration() : UUID {
         userId = UUID.randomUUID()//API get new user id
+
+        return userId;
     }
 }

@@ -15,18 +15,21 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         initializeRepository()
-
-
     }
 
     private fun initializeRepository() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val userId = sharedPref.getString("user-id", null)
+        var userId = UUID.fromString(sharedPref.getString("user-id", null))
 
         if (userId == null) {
-            repository.initializeWithUserRegistration()
+            userId = repository.initializeWithUserRegistration()
         } else {
-            repository.initialize(UUID.fromString(userId))
+            repository.initialize(userId)
+        }
+
+        with (sharedPref.edit()) {
+            putString("user-id", userId.toString())
+            apply()
         }
     }
 }
