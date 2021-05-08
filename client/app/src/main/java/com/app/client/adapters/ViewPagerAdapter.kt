@@ -1,4 +1,4 @@
-package com.app.client
+package com.app.client.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

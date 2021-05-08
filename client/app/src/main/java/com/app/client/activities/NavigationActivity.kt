@@ -1,12 +1,10 @@
 package com.app.client.activities
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import com.app.client.R
-import com.app.client.Repository
-import com.app.client.ViewPagerAdapter
+import com.app.client.adapters.ViewPagerAdapter
+import com.app.client.repository.Repository
 import com.app.client.databinding.ActivityNavigationBinding
 import java.util.*
 
@@ -29,14 +27,15 @@ class NavigationActivity : FragmentActivity() {
     private fun initializeRepository() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         val userIdString = sharedPref.getString("user-id", null)
-        val userId : UUID
 
-        if (userIdString == null) {
-            userId = repository.initializeWithUserRegistration()
-        } else {
-            userId = UUID.fromString(userIdString)
-            repository.initialize(userId)
-        }
+        if (userIdString == null)
+            repository.initializeWithUserRegistration(this::userIdObtained)
+        else
+            repository.initialize(UUID.fromString(userIdString))
+    }
+
+    private fun userIdObtained(userId: UUID) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
 
         with (sharedPref.edit()) {
             putString("user-id", userId.toString())
