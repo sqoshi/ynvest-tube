@@ -3,27 +3,38 @@ package com.app.client.activities
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import com.app.client.R
 import com.app.client.Repository
+import com.app.client.ViewPagerAdapter
+import com.app.client.databinding.ActivityNavigationBinding
 import java.util.*
 
-class ProfileActivity : AppCompatActivity() {
+class NavigationActivity : FragmentActivity() {
 
     private val repository = Repository()
+
+    private lateinit var binding: ActivityNavigationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityNavigationBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        binding.viewPager.adapter = ViewPagerAdapter(this)
 
         initializeRepository()
     }
 
     private fun initializeRepository() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        var userId = UUID.fromString(sharedPref.getString("user-id", null))
+        val userIdString = sharedPref.getString("user-id", null)
+        val userId : UUID
 
-        if (userId == null) {
+        if (userIdString == null) {
             userId = repository.initializeWithUserRegistration()
         } else {
+            userId = UUID.fromString(userIdString)
             repository.initialize(userId)
         }
 
