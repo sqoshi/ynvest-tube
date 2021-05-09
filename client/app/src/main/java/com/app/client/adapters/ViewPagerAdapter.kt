@@ -13,8 +13,8 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            1 -> ProfileFragment()
-            2 -> AuctionListFragment()
+            0 -> ProfileFragment()
+            1 -> AuctionListFragment()
             else -> throw IllegalArgumentException()
         }
     }
