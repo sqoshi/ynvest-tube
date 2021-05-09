@@ -1,5 +1,7 @@
 package com.app.client.repository
 
+import com.app.client.model.Auction
+import com.app.client.model.AuctionListResponse
 import com.app.client.model.RegisterUserResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -7,6 +9,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Repository {
 
@@ -15,7 +18,7 @@ class Repository {
         private lateinit var userId: UUID
     }
 
-    public fun initialize(id: UUID) {
+    fun initialize(id: UUID) {
         apiRequestService = Retrofit.Builder()
             .baseUrl("https://best-api-on-planet-earth.com")
             .addConverterFactory(MoshiConverterFactory.create())
@@ -25,7 +28,7 @@ class Repository {
         userId = id
     }
 
-    public fun initializeWithUserRegistration(callback: (UUID) -> Unit) {
+    fun initializeWithUserRegistration(callback: (UUID) -> Unit) {
         apiRequestService = Retrofit.Builder()
             .baseUrl("https://best-api-on-planet-earth.com")
             .addConverterFactory(MoshiConverterFactory.create())
@@ -42,17 +45,41 @@ class Repository {
                 call: Call<RegisterUserResponse>,
                 response: Response<RegisterUserResponse>
             ) {
+                if (!response.isSuccessful)
+                    throw NotImplementedError()
+
                 val result = response.body()
 
                 if (result == null)
                     throw Exception("Why the hell response is null")
 
-                if (!response.isSuccessful)
-                    throw NotImplementedError()
-
                 userId = UUID.fromString(result.userId)
 
                 callback(userId)
+            }
+        })
+    }
+
+    fun getActionList(callback: (ArrayList<Auction>) -> Unit) {
+        apiRequestService.getActionListRequest().enqueue(object : Callback<AuctionListResponse> {
+
+            override fun onFailure(call: Call<AuctionListResponse>, t: Throwable) {
+                throw NotImplementedError()
+            }
+
+            override fun onResponse(
+                call: Call<AuctionListResponse>,
+                response: Response<AuctionListResponse>
+            ) {
+                if (!response.isSuccessful)
+                    throw NotImplementedError()
+
+                val result = response.body()
+
+                if (result == null)
+                    throw Exception("Why the hell response is null")
+
+                callback(result.auctions)
             }
         })
     }
