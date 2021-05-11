@@ -1,11 +1,14 @@
 package com.app.client.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.app.client.adapters.ViewPagerAdapter
 import com.app.client.repository.Repository
 import com.app.client.databinding.ActivityNavigationBinding
+import com.app.client.model.Auction
 import java.util.*
 
 class NavigationActivity : FragmentActivity() {
@@ -19,7 +22,7 @@ class NavigationActivity : FragmentActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.viewPager.adapter = ViewPagerAdapter(this)
+        binding.viewPager.adapter = ViewPagerAdapter(this, ::auctionClick)
 
         initializeRepository()
     }
@@ -41,5 +44,11 @@ class NavigationActivity : FragmentActivity() {
             putString("user-id", userId.toString())
             apply()
         }
+    }
+
+    private fun auctionClick(auction: Auction){
+        val intent = Intent(this, AuctionActivity::class.java)
+        intent.putExtra(Auction::id.name, auction.id)
+        startActivity(intent)
     }
 }
