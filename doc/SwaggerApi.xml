@@ -126,7 +126,7 @@ definitions:
               name:
                 type: string
               profit:
-                description: "Movie income - movie price. May be lower than 0"
+                description: "Movie income - movie price. May be lower than 0. (Nullable)"
                 type: integer
               ownEndDate:
                 type: string
