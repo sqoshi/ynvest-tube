@@ -1,0 +1,155 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: YnvestTubeApi
+host: "127.0.0.1:8000"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /accounts/register:
+    get:
+      summary: "Register new user"
+      operationId: "registerUser"
+      tags:
+        - user
+      responses:
+        "200":
+          description: 'User id for an app to use in future calls'
+          schema:
+            $ref: '#/definitions/UserId'
+  /accounts/get:
+    post:
+      summary: 'Get basic info about user'
+      operationId: getUserData
+      tags:
+        - user
+      parameters:
+      - in: body
+        name: "user id"
+        description: user id
+        required: true
+        schema:
+            $ref: '#/definitions/UserId'
+      responses:
+        '200':
+          description: 'User data'
+          schema:
+            $ref: '#/definitions/UserData'
+        '403':
+          description: Bad user id
+  /auctions:
+    get:
+      summary: 'Get latest auctions'
+      operationId: getAuctions
+      tags:
+        - auction
+      parameters:
+      - in: "body"
+        name: "userId"
+        schema:
+          $ref: '#/definitions/UserId'
+      responses:
+        '200':
+          description: 'Auction list retrieved successfully'
+          schema:
+            $ref: '#/definitions/AuctionList'
+        '403':
+          description: Bad user id
+  /auctions/{auctionId}:
+    get:
+      summary: 'Get detailed state of auction'
+      operationId: getAuctionData
+      tags:
+        - auction
+      parameters:
+      - in: "path"
+        required: true
+        name: "auctionId"
+        type: integer
+      - in: "body"
+        name: "userId"
+        schema:
+          $ref: '#/definitions/UserId'
+      responses:
+        '200':
+          description: 'User retrieved successfully'
+          schema:
+            $ref: '#/definitions/AuctionData'
+        '403':
+          description: Bad user id
+    post:
+      summary: 'Bet on auction'
+      operationId: betAuction
+      tags:
+        - auction
+      parameters:
+      - in: "path"
+        required: true
+        name: "auctionId"
+        type: integer
+      - in: "body"
+        name: "auctionBet"
+        schema:
+          $ref: '#/definitions/AuctionBet'
+      responses:
+        '200':
+          description: 'Bet successful'
+          schema:
+            $ref: '#/definitions/AuctionData'
+        '400':
+          description: Not enough value in bet
+        '403':
+          description: Bad user id
+        '404':
+          description: Auction already ended
+definitions:
+  UserId:
+      type: object
+      properties:
+        userId:
+          type: string
+  UserData:
+      type: object
+      properties:
+        cash:
+          type: integer
+        password:
+          type: string
+        ownedMovies:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              ownEnd:
+                type: string
+  AuctionData:
+    type: object
+    properties:
+      movieName:
+        type: string
+      currentBet:
+        type: integer
+      projectedEnd:
+        type: string
+  AuctionList:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        movieName:
+          type: string
+        startDate:
+          type: string
+  AuctionBet:
+      type: object
+      properties:
+        userId:
+          type: string
+        betVaule:
+          type: integer
