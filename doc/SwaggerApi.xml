@@ -116,9 +116,7 @@ definitions:
       properties:
         cash:
           type: integer
-        password:
-          type: string
-        ownedMovies:
+        ownedVideos:
           type: array
           items:
             type: object
@@ -126,14 +124,14 @@ definitions:
               name:
                 type: string
               profit:
-                description: "Movie income - movie price. May be lower than 0. (Nullable)"
+                description: "Video income - video price. May be lower than 0. (Nullable)"
                 type: integer
               ownEndDate:
                 type: string
   AuctionDetails:
     type: object
     properties:
-      movieName:
+      videoName:
         type: string
       currentBet:
         type: integer
@@ -150,7 +148,7 @@ definitions:
       properties:
         id:
           type: integer
-        movieName:
+        videoName:
           type: string
         startDate:
           example: "2021-05-15T12:23:43.552"
