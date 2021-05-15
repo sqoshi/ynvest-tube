@@ -19,10 +19,10 @@ paths:
           description: 'User id for an app to use in future calls'
           schema:
             $ref: '#/definitions/UserId'
-  /accounts/get:
+  /accounts/details:
     post:
       summary: 'Get basic info about user'
-      operationId: getUserData
+      operationId: getUserDetails
       tags:
         - user
       parameters:
@@ -36,7 +36,7 @@ paths:
         '200':
           description: 'User data'
           schema:
-            $ref: '#/definitions/UserData'
+            $ref: '#/definitions/UserDetails'
         '403':
           description: Bad user id
   /auctions:
@@ -60,7 +60,7 @@ paths:
   /auctions/{auctionId}:
     get:
       summary: 'Get detailed state of auction'
-      operationId: getAuctionData
+      operationId: getAuctionDetails
       tags:
         - auction
       parameters:
@@ -76,7 +76,7 @@ paths:
         '200':
           description: 'User retrieved successfully'
           schema:
-            $ref: '#/definitions/AuctionData'
+            $ref: '#/definitions/AuctionDetails'
         '403':
           description: Bad user id
     post:
@@ -97,7 +97,7 @@ paths:
         '200':
           description: 'Bet successful'
           schema:
-            $ref: '#/definitions/AuctionData'
+            $ref: '#/definitions/AuctionDetails'
         '400':
           description: Not enough value in bet
         '403':
@@ -109,8 +109,9 @@ definitions:
       type: object
       properties:
         userId:
+          example: "729b8942-b579-11eb-8529-0242ac130003"
           type: string
-  UserData:
+  UserDetails:
       type: object
       properties:
         cash:
@@ -124,16 +125,23 @@ definitions:
             properties:
               name:
                 type: string
+              profit:
+                description: "Movie income - movie price. May be lower than 0"
+                type: integer
               ownEnd:
                 type: string
-  AuctionData:
+  AuctionDetails:
     type: object
     properties:
       movieName:
         type: string
       currentBet:
         type: integer
+      bettingUsers:
+        description: "Number of users that placed a bet on this auction"
+        type: integer
       projectedEnd:
+        example: "2021-05-15T12:23:43.552"
         type: string
   AuctionList:
     type: array
@@ -145,11 +153,13 @@ definitions:
         movieName:
           type: string
         startDate:
+          example: "2021-05-15T12:23:43.552"
           type: string
   AuctionBet:
       type: object
       properties:
         userId:
+          example: "729b8942-b579-11eb-8529-0242ac130003"
           type: string
         betVaule:
           type: integer
