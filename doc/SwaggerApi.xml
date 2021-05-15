@@ -127,6 +127,7 @@ definitions:
                 description: "Video income - video price. May be lower than 0. (Nullable)"
                 type: integer
               ownEndDate:
+                description: "The date when the rent of the video by this user will end or already ended"
                 type: string
   AuctionDetails:
     type: object
