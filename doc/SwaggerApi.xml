@@ -21,7 +21,6 @@ paths:
   /users/details:
     get:
       summary: 'Get basic info about user'
-      operationId: getUserDetails
       tags:
         - user
       parameters:
