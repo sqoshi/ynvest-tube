@@ -8,10 +8,9 @@ consumes:
 produces:
   - "application/json"
 paths:
-  /accounts/register:
+  /users/register:
     get:
       summary: "Register new user"
-      operationId: "registerUser"
       tags:
         - user
       responses:
@@ -19,7 +18,7 @@ paths:
           description: 'User id for an app to use in future calls'
           schema:
             $ref: '#/definitions/UserId'
-  /accounts/details:
+  /users/details:
     get:
       summary: 'Get basic info about user'
       operationId: getUserDetails
@@ -27,8 +26,7 @@ paths:
         - user
       parameters:
       - in: body
-        name: "user id"
-        description: user id
+        name: "userId"
         required: true
         schema:
             $ref: '#/definitions/UserId'
@@ -42,12 +40,12 @@ paths:
   /auctions:
     get:
       summary: 'Get latest auctions'
-      operationId: getAuctions
       tags:
         - auction
       parameters:
       - in: "body"
         name: "userId"
+        required: true
         schema:
           $ref: '#/definitions/UserId'
       responses:
@@ -60,16 +58,15 @@ paths:
   /auctions/{auctionId}:
     get:
       summary: 'Get detailed state of auction'
-      operationId: getAuctionDetails
       tags:
         - auction
       parameters:
       - in: "path"
-        required: true
         name: "auctionId"
+        required: true
         type: integer
       - in: "body"
-        name: "userId"
+        name: "UserId"
         schema:
           $ref: '#/definitions/UserId'
       responses:
@@ -81,13 +78,12 @@ paths:
           description: Bad user id
     post:
       summary: 'Bet on auction'
-      operationId: betAuction
       tags:
         - auction
       parameters:
       - in: "path"
-        required: true
         name: "auctionId"
+        required: true
         type: integer
       - in: "body"
         name: "auctionBet"
