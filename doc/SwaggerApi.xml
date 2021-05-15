@@ -20,7 +20,7 @@ paths:
           schema:
             $ref: '#/definitions/UserId'
   /accounts/details:
-    post:
+    get:
       summary: 'Get basic info about user'
       operationId: getUserDetails
       tags:
