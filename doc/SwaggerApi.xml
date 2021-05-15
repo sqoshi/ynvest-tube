@@ -128,7 +128,7 @@ definitions:
               profit:
                 description: "Movie income - movie price. May be lower than 0"
                 type: integer
-              ownEnd:
+              ownEndDate:
                 type: string
   AuctionDetails:
     type: object
@@ -140,7 +140,7 @@ definitions:
       bettingUsers:
         description: "Number of users that placed a bet on this auction"
         type: integer
-      projectedEnd:
+      projectedEndDate:
         example: "2021-05-15T12:23:43.552"
         type: string
   AuctionList:
