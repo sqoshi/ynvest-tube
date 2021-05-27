@@ -5,5 +5,5 @@ import java.time.LocalTime
 import java.util.*
 
 data class Auction(val id: Int,
-                   val movieName: String,
-                   val startDate: LocalDateTime)
+                   val video: Video,
+                   val auction_expiration_date: String)

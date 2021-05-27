@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import com.app.client.R
@@ -17,22 +18,20 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 class AuctionsAdapter(
-    private val dataSet: ArrayList<Auction>,
     private val clickListener: (Auction) -> Unit
 ) : RecyclerView.Adapter<AuctionsAdapter.ViewHolder>() {
+
+    public var dataSet: ArrayList<Auction> = ArrayList()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val movieNameTextView: TextView = view.findViewById(R.id.movieNameTextView)
         private val startDateTextView: TextView = view.findViewById(R.id.startDateTextView)
-        val layout: LinearLayout = view.findViewById(R.id.layout)
+        val layout = view.findViewById<ConstraintLayout>(R.id.layout)
 
         fun bindAuction(auction: Auction) {
-            movieNameTextView.text = auction.movieName
+            movieNameTextView.text = auction.video.title
 
-            if (LocalDateTime.now().isBefore(auction.startDate)) {
-                layout.setBackgroundColor(Color.GRAY)
-                startDateTextView.text = auction.startDate.toString()
-            }
+            startDateTextView.text = auction.auction_expiration_date
         }
     }
 
