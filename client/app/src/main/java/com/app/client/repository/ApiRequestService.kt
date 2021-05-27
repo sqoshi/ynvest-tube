@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiRequestService {
-    @POST("/register")
+    @GET("/users/register")
     fun getRegisterRequest(): Call<RegisterUserResponse>
 
     @GET("/auctions")

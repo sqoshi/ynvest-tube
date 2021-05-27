@@ -1,3 +1,3 @@
 package com.app.client.model
 
-data class AuctionListResponse(val auctions: ArrayList<Auction>)
+data class AuctionListResponse(val activeAuctions: ArrayList<Auction>)
