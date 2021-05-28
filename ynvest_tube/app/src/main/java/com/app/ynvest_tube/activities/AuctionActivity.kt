@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Auction
-import com.app.ynvest_tube.model.AuctionDetails
+import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.repository.Repository
 
 class AuctionActivity : AppCompatActivity() {
@@ -23,7 +23,7 @@ class AuctionActivity : AppCompatActivity() {
         repository.getActionDetails(::auctionDetailsObtained, auctionId)
     }
 
-    private fun auctionDetailsObtained(auctionDetails: AuctionDetails){
+    private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse){
         throw NotImplementedError()
     }
 }

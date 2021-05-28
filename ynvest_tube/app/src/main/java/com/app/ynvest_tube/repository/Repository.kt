@@ -1,7 +1,7 @@
 package com.app.ynvest_tube.repository
 
 import com.app.ynvest_tube.model.Auction
-import com.app.ynvest_tube.model.AuctionDetails
+import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.AuctionListResponse
 import com.app.ynvest_tube.model.RegisterUserResponse
 import com.google.gson.Gson
@@ -87,16 +87,16 @@ class Repository {
         })
     }
 
-    fun getActionDetails(callback: (AuctionDetails) -> Unit, auctionId: Int) {
-        apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetails> {
+    fun getActionDetails(callback: (AuctionDetailsResponse) -> Unit, auctionId: Int) {
+        apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetailsResponse> {
 
-            override fun onFailure(call: Call<AuctionDetails>, t: Throwable) {
+            override fun onFailure(call: Call<AuctionDetailsResponse>, t: Throwable) {
                 throw NotImplementedError()
             }
 
             override fun onResponse(
-                call: Call<AuctionDetails>,
-                response: Response<AuctionDetails>
+                call: Call<AuctionDetailsResponse>,
+                response: Response<AuctionDetailsResponse>
             ) {
                 if (!response.isSuccessful)
                     throw NotImplementedError()
