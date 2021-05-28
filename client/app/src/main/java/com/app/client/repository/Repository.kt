@@ -1,11 +1,10 @@
 package com.app.client.repository
 
 import com.app.client.model.Auction
-import com.app.client.model.AuctionDetails
+import com.app.client.model.AuctionDetailsResponse
 import com.app.client.model.AuctionListResponse
 import com.app.client.model.RegisterUserResponse
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -88,16 +87,16 @@ class Repository {
         })
     }
 
-    fun getActionDetails(callback: (AuctionDetails) -> Unit, auctionId: Int) {
-        apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetails> {
+    fun getActionDetails(callback: (AuctionDetailsResponse) -> Unit, auctionId: Int) {
+        apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetailsResponse> {
 
-            override fun onFailure(call: Call<AuctionDetails>, t: Throwable) {
+            override fun onFailure(call: Call<AuctionDetailsResponse>, t: Throwable) {
                 throw NotImplementedError()
             }
 
             override fun onResponse(
-                call: Call<AuctionDetails>,
-                response: Response<AuctionDetails>
+                call: Call<AuctionDetailsResponse>,
+                response: Response<AuctionDetailsResponse>
             ) {
                 if (!response.isSuccessful)
                     throw NotImplementedError()
