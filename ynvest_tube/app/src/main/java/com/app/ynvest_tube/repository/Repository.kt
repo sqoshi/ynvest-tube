@@ -32,7 +32,7 @@ class Repository {
     fun initializeWithUserRegistration(successCallback: (UUID) -> Unit, failedCallback: () -> Unit) {
         apiRequestService = Retrofit.Builder()
             .baseUrl("http://10.0.2.2:8000")
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
             .build()
             .create(ApiRequestService::class.java)
 
