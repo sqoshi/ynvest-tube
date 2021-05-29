@@ -1,9 +1,7 @@
 package com.app.ynvest_tube.repository
 
-import com.app.ynvest_tube.model.Auction
-import com.app.ynvest_tube.model.AuctionDetailsResponse
-import com.app.ynvest_tube.model.AuctionListResponse
-import com.app.ynvest_tube.model.RegisterUserResponse
+import android.widget.Toast
+import com.app.ynvest_tube.model.*
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +29,7 @@ class Repository {
         userId = id
     }
 
-    fun initializeWithUserRegistration(callback: (UUID) -> Unit) {
+    fun initializeWithUserRegistration(successCallback: (UUID) -> Unit, failedCallback: () -> Unit) {
         apiRequestService = Retrofit.Builder()
             .baseUrl("http://10.0.2.2:8000")
             .addConverterFactory(MoshiConverterFactory.create())
@@ -41,72 +39,112 @@ class Repository {
         apiRequestService.getRegisterRequest().enqueue(object : Callback<RegisterUserResponse> {
 
             override fun onFailure(call: Call<RegisterUserResponse>, t: Throwable) {
-                throw NotImplementedError()
+                failedCallback()
             }
 
             override fun onResponse(
                 call: Call<RegisterUserResponse>,
                 response: Response<RegisterUserResponse>
             ) {
-                if (!response.isSuccessful)
-                    throw NotImplementedError()
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
 
                 val result = response.body()
 
-                if (result == null)
-                    throw Exception("Why the hell response is null")
+                if (result == null) {
+                    failedCallback()
+                    return
+                }
 
                 userId = UUID.fromString(result.userId)
 
-                callback(userId)
+                successCallback(userId)
             }
         })
     }
 
-    fun getActionList(callback: (ArrayList<Auction>) -> Unit) {
+    fun getActionList(successCallback: (ArrayList<Auction>) -> Unit, failedCallback: () -> Unit) {
         apiRequestService.getActionListRequest().enqueue(object : Callback<AuctionListResponse> {
 
             override fun onFailure(call: Call<AuctionListResponse>, t: Throwable) {
-                throw NotImplementedError()
+                failedCallback()
             }
 
             override fun onResponse(
                 call: Call<AuctionListResponse>,
                 response: Response<AuctionListResponse>
             ) {
-                if (!response.isSuccessful)
-                    throw NotImplementedError()
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
 
                 val result = response.body()
 
-                if (result == null)
-                    throw Exception("Why the hell response is null")
+                if (result == null) {
+                    failedCallback()
+                    return
+                }
 
-                callback(result.activeAuctions)
+                successCallback(result.activeAuctions)
             }
         })
     }
 
-    fun getActionDetails(callback: (AuctionDetailsResponse) -> Unit, auctionId: Int) {
+    fun getActionDetails(successCallback: (AuctionDetailsResponse) -> Unit, failedCallback: () -> Unit, auctionId: Int) {
         apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetailsResponse> {
 
             override fun onFailure(call: Call<AuctionDetailsResponse>, t: Throwable) {
-                throw NotImplementedError()
+                failedCallback()
             }
 
             override fun onResponse(
                 call: Call<AuctionDetailsResponse>,
                 response: Response<AuctionDetailsResponse>
             ) {
-                if (!response.isSuccessful)
-                    throw NotImplementedError()
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
 
                 val result = response.body()
 
-                if (result == null)
-                    throw Exception("Why the hell response is null")
+                if (result == null) {
+                    failedCallback()
+                    return
+                }
 
-                callback(result)
+                successCallback(result)
+            }
+        })
+    }
+
+    fun getUser(callback: (User) -> Unit, failedCallback: () -> Unit) {
+        apiRequestService.getUserRequest(userId.toString()).enqueue(object : Callback<UserResponse> {
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                failedCallback()
+            }
+
+            override fun onResponse(
+                call: Call<UserResponse>,
+                response: Response<UserResponse>
+            ) {
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
+
+                val result = response.body()
+
+                if (result == null){
+                    failedCallback()
+                    return
+                }
+
+                callback(result.user)
             }
         })
     }

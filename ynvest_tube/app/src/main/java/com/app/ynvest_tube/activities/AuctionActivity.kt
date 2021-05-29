@@ -2,6 +2,7 @@ package com.app.ynvest_tube.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
@@ -20,10 +21,14 @@ class AuctionActivity : AppCompatActivity() {
         if(auctionId == 0)
             finish()
 
-        repository.getActionDetails(::auctionDetailsObtained, auctionId)
+        repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
     }
 
     private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse){
         throw NotImplementedError()
+    }
+
+    private fun requestFailed(){
+        Toast.makeText(this, "Internet connection is not stable", Toast.LENGTH_SHORT).show()
     }
 }
