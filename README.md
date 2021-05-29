@@ -1,9 +1,15 @@
 # ynvest-tube
 
+<div align="center" style="display: flex;flex-direction: column">
+  <p>ynvest-tube-server</p>
+  <img src="ynvest_tube/app/src/main/ynvest_tube_logo-playstore.png" width="100"/>
+</div>
+
 ## Table of contests
 
 - [Introduction](#introduction)
 - [General](#general)
+    - [Server](#server)
 - [Installation](#installation)
 - [Launch](#launch)
 - [Technologies](#technologies)
@@ -19,6 +25,14 @@ of views during the rental. Well, users may use a lot of more or less intelligen
 an auction item they don't even want to rent, just to make it difficult for others to play ;).
 
 ## General
+
+### Server
+
+Application communicates with server written in `Django`, `Python`. List of endpoints, periodic tasks and more details are
+available in repository created specially for this
+purpose [YnvestTubeServer](https://github.com/sqoshi/ynvest-tube-server).
+We used `Redis` as a `periodic task` caller.
+
 
 ## Installation
 
