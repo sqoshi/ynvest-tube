@@ -25,6 +25,21 @@ class AuctionActivity : AppCompatActivity() {
     }
 
     private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse){
+        //Example bid call
+        repository.bidOnAuction(::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
+                auctionDetails.auction.id, (auctionDetails.auction.last_bid_value ?: auctionDetails.auction.starting_price) + 1)
+        throw NotImplementedError()
+    }
+
+    private fun bidSuccessful(auctionDetails: AuctionDetailsResponse){
+        throw NotImplementedError()
+    }
+
+    private fun notEnoughValueInBid(){
+        throw NotImplementedError()
+    }
+
+    private fun auctionEnded(){
         throw NotImplementedError()
     }
 

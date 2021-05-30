@@ -14,6 +14,9 @@ interface ApiRequestService {
     @GET("/auctions/{id}")
     fun getActionDetailsRequest(@Path("id") id: Int): Call<AuctionDetailsResponse>
 
+    @POST("/auctions/{id}")
+    fun getBidOnActionRequest(@Path("id") id: Int, @Body bidRequest: AuctionBidRequest): Call<AuctionDetailsResponse>
+
     @POST("/user")
     fun getUserRequest(@Body userId: UserIdRequest): Call<UserResponse>
 

@@ -121,6 +121,44 @@ class Repository {
         })
     }
 
+    fun bidOnAuction(callback: (AuctionDetailsResponse) -> Unit, failedCallback: () -> Unit, notEnoughBidValueCallback: () -> Unit,
+                     auctionEndedCallback: () -> Unit, auctionId: Int, bidValue: Int) {
+
+        apiRequestService.getBidOnActionRequest(auctionId, AuctionBidRequest(bidValue, userId.toString())).enqueue(object : Callback<AuctionDetailsResponse> {
+
+            override fun onFailure(call: Call<AuctionDetailsResponse>, t: Throwable) {
+                failedCallback()
+            }
+
+            override fun onResponse(
+                    call: Call<AuctionDetailsResponse>,
+                    response: Response<AuctionDetailsResponse>
+            ) {
+                if(response.code() == 400){
+                    notEnoughBidValueCallback()
+                    return
+                }
+                if(response.code() == 404){
+                    auctionEndedCallback()
+                    return
+                }
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
+
+                val result = response.body()
+
+                if (result == null){
+                    failedCallback()
+                    return
+                }
+
+                callback(result)
+            }
+        })
+    }
+
     fun getUser(callback: (User) -> Unit, failedCallback: () -> Unit) {
         apiRequestService.getUserRequest(UserIdRequest(userId.toString())).enqueue(object : Callback<UserResponse> {
 
@@ -176,4 +214,6 @@ class Repository {
             }
         })
     }
+
+
 }
