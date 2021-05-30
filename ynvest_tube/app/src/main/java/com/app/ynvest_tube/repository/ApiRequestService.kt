@@ -1,9 +1,6 @@
 package com.app.ynvest_tube.repository
 
-import com.app.ynvest_tube.model.AuctionDetailsResponse
-import com.app.ynvest_tube.model.AuctionListResponse
-import com.app.ynvest_tube.model.RegisterUserResponse
-import com.app.ynvest_tube.model.UserResponse
+import com.app.ynvest_tube.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -18,5 +15,8 @@ interface ApiRequestService {
     fun getActionDetailsRequest(@Path("id") id: Int): Call<AuctionDetailsResponse>
 
     @POST("/user")
-    fun getUserRequest(@Body userId: String): Call<UserResponse>
+    fun getUserRequest(@Body userId: UserIdRequest): Call<UserResponse>
+
+    @POST("/user/details")
+    fun getUserDetailsRequest(@Body userId: UserIdRequest): Call<UserDetailsResponse>
 }

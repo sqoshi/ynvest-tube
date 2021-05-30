@@ -122,7 +122,7 @@ class Repository {
     }
 
     fun getUser(callback: (User) -> Unit, failedCallback: () -> Unit) {
-        apiRequestService.getUserRequest(userId.toString()).enqueue(object : Callback<UserResponse> {
+        apiRequestService.getUserRequest(UserIdRequest(userId.toString())).enqueue(object : Callback<UserResponse> {
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 failedCallback()
@@ -145,6 +145,34 @@ class Repository {
                 }
 
                 callback(result.user)
+            }
+        })
+    }
+
+    fun getUserDetails(callback: (UserDetailsResponse) -> Unit, failedCallback: () -> Unit) {
+        apiRequestService.getUserDetailsRequest(UserIdRequest(userId.toString())).enqueue(object : Callback<UserDetailsResponse> {
+
+            override fun onFailure(call: Call<UserDetailsResponse>, t: Throwable) {
+                failedCallback()
+            }
+
+            override fun onResponse(
+                    call: Call<UserDetailsResponse>,
+                    response: Response<UserDetailsResponse>
+            ) {
+                if (!response.isSuccessful) {
+                    failedCallback()
+                    return
+                }
+
+                val result = response.body()
+
+                if (result == null){
+                    failedCallback()
+                    return
+                }
+
+                callback(result)
             }
         })
     }

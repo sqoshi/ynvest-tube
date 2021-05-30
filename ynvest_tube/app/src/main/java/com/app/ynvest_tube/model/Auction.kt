@@ -2,6 +2,7 @@ package com.app.ynvest_tube.model
 
 data class Auction(val id: Int,
                    val video: Video,
+                   val starting_price: Int,
                    val last_bid_value: Int?,
                    val last_bidder: String,
                    val rental_duration: String,
