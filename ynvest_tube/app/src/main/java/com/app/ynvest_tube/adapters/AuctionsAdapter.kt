@@ -8,6 +8,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Auction
+import com.app.ynvest_tube.model.internal.RelativeDate
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AuctionsAdapter(
     private val clickListener: (Auction) -> Unit
@@ -23,7 +30,15 @@ class AuctionsAdapter(
         fun bindAuction(auction: Auction) {
             movieNameTextView.text = auction.video.title
 
-            startDateTextView.text = auction.auction_expiration_date
+            val expirationDateStr = auction.auction_expiration_date
+            val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            val serverDateTime = LocalDateTime.parse(expirationDateStr, dateTimeFormatter)
+            val zonedDateTime = serverDateTime.atZone(ZoneId.of("UTC"))
+            val deviceDateTime = zonedDateTime.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+
+            val relativeDate = RelativeDate(deviceDateTime)
+
+            startDateTextView.text = relativeDate.reprRelativeToNow
         }
     }
 
