@@ -18,27 +18,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="100dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/auctionsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="120dp"
-                android:paddingTop="120dp"
-                android:paddingBottom="200dp"
-                android:paddingHorizontal="20dp"
-                android:background="@drawable/rect_background_cut"/>
+                android:paddingTop="100dp"
+                android:paddingBottom="200dp"/>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/auctionsNestedScrollView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/ynv_primary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
