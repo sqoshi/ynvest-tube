@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/previousRentalView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_background"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/previousRentalView_videoTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/previousRentalView_gain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/previousRentalView_gain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/previousRentalView_videoTitle"
+        android:text="@string/sample_text"
+        android:textAlignment="viewEnd"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
