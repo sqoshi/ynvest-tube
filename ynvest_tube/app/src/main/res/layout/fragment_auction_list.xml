@@ -28,7 +28,7 @@
                 android:paddingTop="120dp"
                 android:paddingBottom="200dp"
                 android:paddingHorizontal="20dp"
-                android:background="@drawable/list_background"/>
+                android:background="@drawable/rect_background_cut"/>
 
         </LinearLayout>
 

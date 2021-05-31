@@ -31,13 +31,7 @@ class AuctionsAdapter(
             movieNameTextView.text = auction.video.title
 
             val expirationDateStr = auction.auction_expiration_date
-            val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val serverDateTime = LocalDateTime.parse(expirationDateStr, dateTimeFormatter)
-            val zonedDateTime = serverDateTime.atZone(ZoneId.of("UTC"))
-            val deviceDateTime = zonedDateTime.withZoneSameInstant(TimeZone.getDefault().toZoneId())
-
-            val relativeDate = RelativeDate(deviceDateTime)
-
+            val relativeDate = RelativeDate(expirationDateStr)
             startDateTextView.text = relativeDate.reprRelativeToNow
         }
     }

@@ -1,9 +1,23 @@
 package com.app.ynvest_tube.model.internal
 
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.*
 
-class RelativeDate(private val date: ZonedDateTime) {
+class RelativeDate(dateStr: String) {
+
+    private val date: ZonedDateTime
+
+    init {
+        val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val serverDateTime = LocalDateTime.parse(dateStr, dateTimeFormatter)
+        val zonedDateTime = serverDateTime.atZone(ZoneId.of("UTC"))
+        date = zonedDateTime.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+    }
+
     val reprRelativeToNow: String
         get() {
             val currentDate = ZonedDateTime.now()
