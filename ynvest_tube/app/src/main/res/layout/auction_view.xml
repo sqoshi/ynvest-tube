@@ -2,15 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100sp">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rect_foreground"
+    android:padding="20dp"
+    android:layout_marginBottom="50dp">
 
     <TextView
         android:id="@+id/movieNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_text"
+        android:textSize="24sp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/startDateTextView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_weight="0.8"
+        android:layout_marginEnd="20dp" />
 
     <TextView
         android:id="@+id/startDateTextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_text"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/movieNameTextView"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_weight="0.2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
