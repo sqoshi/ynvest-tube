@@ -1,4 +1,4 @@
-package com.app.ynvest_tube.fragments.profile
+package com.app.ynvest_tube.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
