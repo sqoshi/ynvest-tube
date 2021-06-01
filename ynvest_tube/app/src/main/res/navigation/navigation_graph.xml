@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/auctionListFragment"
-        android:name="com.app.ynvest_tube.fragments.auctions.AuctionListFragment"
+        android:name="com.app.ynvest_tube.fragments.AuctionListFragment"
         android:label="fragment_auction_list"
         tools:layout="@layout/fragment_auction_list" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.app.ynvest_tube.fragments.profile.ProfileFragment"
+        android:name="com.app.ynvest_tube.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
