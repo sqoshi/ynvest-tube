@@ -66,7 +66,7 @@ class Repository {
     }
 
     fun getActionList(successCallback: (ArrayList<Auction>) -> Unit, failedCallback: () -> Unit) {
-        apiRequestService.getActionListRequest().enqueue(object : Callback<AuctionListResponse> {
+        apiRequestService.getActionListRequest(UserIdRequest(userId.toString())).enqueue(object : Callback<AuctionListResponse> {
 
             override fun onFailure(call: Call<AuctionListResponse>, t: Throwable) {
                 failedCallback()
@@ -94,7 +94,7 @@ class Repository {
     }
 
     fun getActionDetails(successCallback: (AuctionDetailsResponse) -> Unit, failedCallback: () -> Unit, auctionId: Int) {
-        apiRequestService.getActionDetailsRequest(auctionId).enqueue(object : Callback<AuctionDetailsResponse> {
+        apiRequestService.getActionDetailsRequest(auctionId, UserIdRequest(userId.toString())).enqueue(object : Callback<AuctionDetailsResponse> {
 
             override fun onFailure(call: Call<AuctionDetailsResponse>, t: Throwable) {
                 failedCallback()

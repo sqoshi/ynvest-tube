@@ -8,13 +8,13 @@ interface ApiRequestService {
     @GET("/users/register")
     fun getRegisterRequest(): Call<RegisterUserResponse>
 
-    @GET("/auctions")
-    fun getActionListRequest(): Call<AuctionListResponse>
-
-    @GET("/auctions/{id}")
-    fun getActionDetailsRequest(@Path("id") id: Int): Call<AuctionDetailsResponse>
+    @POST("/auctions")
+    fun getActionListRequest(@Body userId: UserIdRequest): Call<AuctionListResponse>
 
     @POST("/auctions/{id}")
+    fun getActionDetailsRequest(@Path("id") id: Int, @Body userId: UserIdRequest): Call<AuctionDetailsResponse>
+
+    @PUT("/auctions/{id}")
     fun getBidOnActionRequest(@Path("id") id: Int, @Body bidRequest: AuctionBidRequest): Call<AuctionDetailsResponse>
 
     @POST("/user")
