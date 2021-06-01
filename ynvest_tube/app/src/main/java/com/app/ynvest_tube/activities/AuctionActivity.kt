@@ -67,11 +67,7 @@ class AuctionActivity : AppCompatActivity() {
                 auctionDetails.auctionBidders
             )
         findViewById<TextView>(R.id.auctionActivity_lastBid).text =
-            auctionDetails.auction.starting_price.toString()
-        if (auctionDetails.auction.last_bid_value != null) {
-            findViewById<TextView>(R.id.auctionActivity_lastBid).text =
-                auctionDetails.auction.last_bid_value.toString()
-        }
+            (auctionDetails.auction.last_bid_value ?: auctionDetails.auction.starting_price).toString()
         findViewById<TextView>(R.id.auctionActivity_rentalDuration).text =
             Duration(auctionDetails.auction.rental_duration).toString()
         findViewById<TextView>(R.id.auctionActivity_videoViews).text =
@@ -92,8 +88,8 @@ class AuctionActivity : AppCompatActivity() {
         }
         val bidAmount = bidAmountStr.toInt()
         repository.bidOnAuction(
-            ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
-            auctionId, bidAmount
+                ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
+                auctionId, bidAmount
         )
     }
 }

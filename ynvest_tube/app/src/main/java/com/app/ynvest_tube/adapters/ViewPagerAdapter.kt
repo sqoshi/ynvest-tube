@@ -3,8 +3,8 @@ package com.app.ynvest_tube.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.app.ynvest_tube.fragments.auctions.AuctionListFragment
-import com.app.ynvest_tube.fragments.profile.ProfileFragment
+import com.app.ynvest_tube.fragments.AuctionListFragment
+import com.app.ynvest_tube.fragments.ProfileFragment
 import com.app.ynvest_tube.model.Auction
 
 class ViewPagerAdapter(
@@ -13,7 +13,18 @@ class ViewPagerAdapter(
 ) :
     FragmentStateAdapter(fragmentActivity) {
 
-    override fun getItemCount(): Int = 2
+    private var activated = false
+
+    override fun getItemCount() : Int {
+        if(!activated)
+            return 0
+        return 2
+    }
+
+    public fun activate() {
+        activated = true
+        notifyDataSetChanged()
+    }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {

@@ -14,6 +14,7 @@ import java.util.*
 class NavigationActivity : FragmentActivity() {
 
     private val repository = Repository()
+    private val viewPagerAdapter: ViewPagerAdapter = ViewPagerAdapter(this, ::auctionClick)
 
     private lateinit var binding: ActivityNavigationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class NavigationActivity : FragmentActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.viewPager.adapter = ViewPagerAdapter(this, ::auctionClick)
+        binding.viewPager.adapter = viewPagerAdapter
 
         initializeRepository()
     }
@@ -33,11 +34,14 @@ class NavigationActivity : FragmentActivity() {
 
         if (userIdString == null)
             repository.initializeWithUserRegistration(::userIdObtained, ::requestFailed)
-        else
+        else {
             repository.initialize(UUID.fromString(userIdString))
+            viewPagerAdapter.activate()
+        }
     }
 
     private fun userIdObtained(userId: UUID) {
+        viewPagerAdapter.activate()
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
 
         with (sharedPref.edit()) {
