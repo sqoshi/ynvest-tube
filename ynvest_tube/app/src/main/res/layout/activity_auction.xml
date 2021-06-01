@@ -38,6 +38,7 @@
                     android:id="@+id/auctionActivity_videoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
             </LinearLayout>
@@ -48,6 +49,7 @@
             android:id="@+id/auctionActivity_bidders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/auctionActivity_lastBid"
             app:layout_constraintTop_toBottomOf="@id/auctionActivity_scrollview"
@@ -57,6 +59,7 @@
             android:id="@+id/auctionActivity_lastBid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/auctionActivity_rentalDuration"
             app:layout_constraintTop_toBottomOf="@id/auctionActivity_bidders" />
 
@@ -64,6 +67,7 @@
             android:id="@+id/auctionActivity_rentalDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/auctionActivity_auctionExpiration"
             app:layout_constraintTop_toBottomOf="@id/auctionActivity_lastBid" />
 
@@ -71,6 +75,7 @@
             android:id="@+id/auctionActivity_auctionExpiration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/auctionActivity_rentalDuration" />
 
@@ -80,16 +85,16 @@
         android:id="@+id/auctionActivity_bidAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="4"
-        android:inputType="number"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/auctionActivity_bidButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="1"
         android:hint="@string/amount"
+        android:inputType="number"
         android:textAlignment="center"
-        android:autofillHints="" />
+        app:layout_constraintBottom_toTopOf="@id/auctionActivity_bidButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
     <Button
         android:id="@+id/auctionActivity_bidButton"
@@ -97,11 +102,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:background="@drawable/button"
+        android:onClick="onBid"
         android:text="@string/bid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/auctionActivity_videoDetails"
-        android:onClick="onBid"/>
+        app:layout_constraintTop_toBottomOf="@id/auctionActivity_videoDetails" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
