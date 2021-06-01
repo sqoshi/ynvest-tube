@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="ynv_primary">#207567</color>
-    <color name="ynv_secondary">#358873</color>
+    <color name="ynv_primary">#2ecc71</color>
+    <color name="ynv_secondary">#00B388</color>
+    <color name="ynv_tertiary">#009991</color>
+    <color name="ynv_backtext">#b0b0d0</color>
 </resources>

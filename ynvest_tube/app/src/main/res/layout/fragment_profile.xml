@@ -7,7 +7,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,9 +18,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text="@string/current_rentals"
-                android:textSize="40sp"
-                android:layout_marginStart="20dp"/>
+                android:textSize="40sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/profileFragment_currentRentalsRecycler"
@@ -30,9 +30,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:text="@string/archive_rentals"
-                android:textSize="40sp"
-                android:layout_marginStart="20dp"/>
+                android:textSize="40sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/profileFragment_previousRentalsRecycler"
