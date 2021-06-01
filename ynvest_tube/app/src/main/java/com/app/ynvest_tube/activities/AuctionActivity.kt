@@ -9,8 +9,10 @@ import android.widget.Toast
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
+import com.app.ynvest_tube.model.internal.Duration
 import com.app.ynvest_tube.model.internal.RelativeDate
 import com.app.ynvest_tube.repository.Repository
+import java.util.regex.Pattern
 
 class AuctionActivity : AppCompatActivity() {
 
@@ -59,11 +61,23 @@ class AuctionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.auctionActivity_videoTitle).text =
             auctionDetails.auction.video.title
         findViewById<TextView>(R.id.auctionActivity_bidders).text =
-            getString(R.string.bidders_amount, auctionDetails.auctionBidders)
+            resources.getQuantityString(
+                R.plurals.bidders_amount,
+                auctionDetails.auctionBidders,
+                auctionDetails.auctionBidders
+            )
         findViewById<TextView>(R.id.auctionActivity_lastBid).text =
-            auctionDetails.auction.last_bid_value?.toString()   // fix after updating
+            auctionDetails.auction.starting_price.toString()
+        if (auctionDetails.auction.last_bid_value != null) {
+            findViewById<TextView>(R.id.auctionActivity_lastBid).text =
+                auctionDetails.auction.last_bid_value.toString()
+        }
         findViewById<TextView>(R.id.auctionActivity_rentalDuration).text =
-            auctionDetails.auction.rental_duration
+            Duration(auctionDetails.auction.rental_duration).toString()
+        findViewById<TextView>(R.id.auctionActivity_videoViews).text =
+            auctionDetails.auction.video.views.toString()
+        findViewById<TextView>(R.id.auctionActivity_videoLikes).text =
+            auctionDetails.auction.video.likes.toString()
 
         val expirationDateStr = auctionDetails.auction.auction_expiration_date
         val relativeDate = RelativeDate(expirationDateStr)
