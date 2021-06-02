@@ -4,16 +4,19 @@
     android:id="@+id/previousRentalView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rect_background"
+    android:layout_marginBottom="50dp"
+    android:background="@drawable/rect_foreground"
     android:padding="20dp">
 
     <TextView
         android:id="@+id/previousRentalView_videoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:text="@string/sample_text"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/previousRentalView_gain"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />

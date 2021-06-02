@@ -1,20 +1,17 @@
 package com.app.ynvest_tube.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
-import com.app.ynvest_tube.adapters.AuctionsAdapter
 import com.app.ynvest_tube.adapters.CurrentRentalsAdapter
 import com.app.ynvest_tube.adapters.PreviousRentalsAdapter
-import com.app.ynvest_tube.model.Auction
-import com.app.ynvest_tube.model.User
 import com.app.ynvest_tube.model.UserDetailsResponse
 import com.app.ynvest_tube.repository.Repository
 
@@ -23,6 +20,8 @@ class ProfileFragment : Fragment() {
     private val repository = Repository()
     private lateinit var currentRentals: RecyclerView
     private lateinit var previousRentals: RecyclerView
+    private lateinit var emptyCurrentRentals: TextView
+    private lateinit var emptyPreviousRentals: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,15 +35,25 @@ class ProfileFragment : Fragment() {
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
         repository.getUserDetails(::userDetailsObtained, ::requestFailed)
+        emptyCurrentRentals = view.findViewById(R.id.profileFragment_currentRentalsEmpty)
+        emptyPreviousRentals = view.findViewById(R.id.profileFragment_previousRentalsEmpty)
         return view
     }
 
     private fun userDetailsObtained(userDetails: UserDetailsResponse) {
-        (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
-        currentRentals.adapter?.notifyDataSetChanged()
+        if (userDetails.actualRents.size > 0) {
+            (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
+            currentRentals.adapter?.notifyDataSetChanged()
+            currentRentals.visibility = View.VISIBLE
+            emptyCurrentRentals.visibility = View.GONE
+        }
 
-        (previousRentals.adapter as PreviousRentalsAdapter).dataSet = userDetails.expiredRents
-        previousRentals.adapter?.notifyDataSetChanged()
+        if (userDetails.expiredRents.size > 0) {
+            (previousRentals.adapter as PreviousRentalsAdapter).dataSet = userDetails.expiredRents
+            previousRentals.adapter?.notifyDataSetChanged()
+            previousRentals.visibility = View.VISIBLE
+            emptyPreviousRentals.visibility = View.GONE
+        }
     }
 
     private fun requestFailed() {
