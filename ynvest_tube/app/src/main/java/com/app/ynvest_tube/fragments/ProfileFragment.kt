@@ -35,15 +35,8 @@ class ProfileFragment : Fragment() {
         previousRentals = view.findViewById(R.id.profileFragment_previousRentalsRecycler)
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
-        repository.getUser(::userObtained, ::requestFailed)
         repository.getUserDetails(::userDetailsObtained, ::requestFailed)
         return view
-    }
-
-    private fun userObtained(user: User) {
-        activity?.findViewById<TextView>(R.id.navigationActivity_userBalance)?.text =
-            user.cash.toString()
-        // todo: consider moving to activity, as it influences bar above fragment, not the fragment itself
     }
 
     private fun userDetailsObtained(userDetails: UserDetailsResponse) {

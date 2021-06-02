@@ -163,20 +163,20 @@
 
     </LinearLayout>
 
-        <EditText
-            android:id="@+id/auctionActivity_bidAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="4"
-            android:hint="@string/amount"
-            android:inputType="number"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/auctionActivity_bidButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1" />
+    <EditText
+        android:id="@+id/auctionActivity_bidAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="4"
+        android:hint="@string/amount"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/auctionActivity_bidButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
     <Button
         android:id="@+id/auctionActivity_bidButton"
@@ -200,5 +200,13 @@
         android:textColor="@color/ynv_backtext"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/auctionActivity_bidButton" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/auctionActivity_balanceBarFragment"
+        app:layout_constraintTop_toTopOf="parent"
+        android:name="com.app.ynvest_tube.fragments.BalanceBarFragment"
+        tools:layout="@layout/fragment_balance_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
