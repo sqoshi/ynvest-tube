@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.app.ynvest_tube.R
+import com.app.ynvest_tube.fragments.BalanceBarFragment
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.internal.Duration
@@ -65,6 +66,7 @@ class AuctionActivity : AppCompatActivity() {
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
         Toast.makeText(this, "You successfully bet", Toast.LENGTH_SHORT).show()
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
+        refreshUserBalance()
     }
 
     private fun notEnoughValueInBid() {
@@ -93,7 +95,8 @@ class AuctionActivity : AppCompatActivity() {
                 auctionDetails.auctionBidders
             )
         findViewById<TextView>(R.id.auctionActivity_lastBid).text =
-            (auctionDetails.auction.last_bid_value ?: auctionDetails.auction.starting_price).toString()
+            (auctionDetails.auction.last_bid_value
+                ?: auctionDetails.auction.starting_price).toString()
         findViewById<TextView>(R.id.auctionActivity_rentalDuration).text =
             Duration(auctionDetails.auction.rental_duration).toString()
         findViewById<TextView>(R.id.auctionActivity_videoViews).text =
@@ -104,6 +107,33 @@ class AuctionActivity : AppCompatActivity() {
         val expirationDateStr = auctionDetails.auction.auction_expiration_date
         auctionExpiration = RelativeDate(expirationDateStr)
         auctionExpirationTextView?.text = auctionExpiration?.timeLeft
+
+        val auctionStatus = findViewById<TextView>(R.id.auctionActivity_auctionStatus)
+        when (auctionDetails.auction.user_contribution) {
+            0 -> {
+                auctionStatus.visibility = View.GONE
+            }
+            1 -> {
+                auctionStatus.visibility = View.VISIBLE
+                auctionStatus.text = resources.getString(R.string.not_highest_bid)
+                auctionStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.icon_warning,
+                    0,
+                    0,
+                    0
+                )
+            }
+            2 -> {
+                auctionStatus.visibility = View.VISIBLE
+                auctionStatus.text = resources.getString(R.string.highest_bid)
+                auctionStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.icon_check,
+                    0,
+                    0,
+                    0
+                )
+            }
+        }
     }
 
     fun onBid(view: View) {
@@ -114,8 +144,13 @@ class AuctionActivity : AppCompatActivity() {
         }
         val bidAmount = bidAmountStr.toInt()
         repository.bidOnAuction(
-                ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
-                auctionId, bidAmount
+            ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
+            auctionId, bidAmount
         )
+    }
+
+    private fun refreshUserBalance() {
+        (supportFragmentManager.findFragmentById(R.id.auctionActivity_balanceBarFragment)
+                as BalanceBarFragment).refresh()
     }
 }

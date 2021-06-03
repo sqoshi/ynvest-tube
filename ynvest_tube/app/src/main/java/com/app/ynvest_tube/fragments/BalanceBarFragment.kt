@@ -21,8 +21,12 @@ class BalanceBarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.fragment_balance_bar, container, false)
-        repository.getUser(::userObtained, ::requestFailed)
+        refresh()
         return fragmentView
+    }
+
+    fun refresh() {
+        repository.getUser(::userObtained, ::requestFailed)
     }
 
     private fun userObtained(user: User) {
