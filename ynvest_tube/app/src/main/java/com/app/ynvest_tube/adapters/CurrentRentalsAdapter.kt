@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Rent
+import com.app.ynvest_tube.model.internal.RelativeDate
 
 class CurrentRentalsAdapter : RecyclerView.Adapter<CurrentRentalsAdapter.ViewHolder>() {
 
@@ -15,9 +16,25 @@ class CurrentRentalsAdapter : RecyclerView.Adapter<CurrentRentalsAdapter.ViewHol
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val videoNameTextView =
             view.findViewById<TextView>(R.id.currentRentalView_videoTitle)
+        private val beginningViewsTextView =
+            view.findViewById<TextView>(R.id.currentRentalView_beginningViews)
+        private val endingViewsTextView =
+            view.findViewById<TextView>(R.id.currentRentalView_endingViews)
+        private val moneySpentTextView =
+            view.findViewById<TextView>(R.id.currentRentalView_moneySpent)
+        private val moneyGainedTextView =
+            view.findViewById<TextView>(R.id.currentRentalView_moneyGained)
+        private val rentalEndTimeTextView =
+            view.findViewById<TextView>(R.id.currentRentalView_rentalEndTime)
 
         fun bindRent(rent: Rent) {
             videoNameTextView.text = rent.auction.video.title
+            beginningViewsTextView.text = rent.auction.video_views_on_sold?.toString()
+            endingViewsTextView.text = rent.auction.video.views.toString()
+            moneySpentTextView.text = rent.auction.last_bid_value?.toString()
+            moneyGainedTextView.text =
+                (rent.auction.video.views - rent.auction.video_views_on_sold!!).toString()
+            rentalEndTimeTextView.text = RelativeDate(rent.auction.rental_expiration_date).reprRelativeToNow
         }
     }
 
