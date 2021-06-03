@@ -64,13 +64,12 @@ class AuctionActivity : AppCompatActivity() {
 
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
         Toast.makeText(this, "You successfully bet", Toast.LENGTH_SHORT).show()
-        insertAuctionData(auctionDetails)
+        repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
     }
 
     private fun notEnoughValueInBid() {
         Toast.makeText(this, "Bid too low", Toast.LENGTH_SHORT).show()
-
-        // todo: make sure to call refresh so the current highest bid is updated
+        repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
     }
 
     private fun auctionEnded() {
