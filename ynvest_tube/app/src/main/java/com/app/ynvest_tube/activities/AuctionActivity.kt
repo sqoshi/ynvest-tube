@@ -1,5 +1,7 @@
 package com.app.ynvest_tube.activities
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -23,9 +25,11 @@ class AuctionActivity : AppCompatActivity() {
     private lateinit var auctionExpirationUpdater: Job
     private var auctionExpirationTextView: TextView? = null
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auction)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         auctionId = intent.getIntExtra(Auction::id.name, 0)
 
