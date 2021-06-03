@@ -25,6 +25,8 @@ class PreviousRentalsAdapter : RecyclerView.Adapter<PreviousRentalsAdapter.ViewH
             view.findViewById<TextView>(R.id.previousRentalView_moneySpent)
         private val moneyGainedTextView =
             view.findViewById<TextView>(R.id.previousRentalView_moneyGained)
+        private val moneyAbsoluteTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_moneyAbsolute)
         private val rentalEndTimeTextView =
             view.findViewById<TextView>(R.id.previousRentalView_rentalEndTime)
         private val rentalDurationTextView =
@@ -37,7 +39,10 @@ class PreviousRentalsAdapter : RecyclerView.Adapter<PreviousRentalsAdapter.ViewH
             moneySpentTextView.text = rent.auction.last_bid_value?.toString()
             moneyGainedTextView.text =
                 (rent.auction.video.views - rent.auction.video_views_on_sold!!).toString()
-            rentalEndTimeTextView.text = RelativeDate(rent.auction.rental_expiration_date).reprRelativeToNow
+            moneyAbsoluteTextView.text =
+                (rent.auction.video.views - rent.auction.video_views_on_sold - rent.auction.last_bid_value!!).toString()
+            rentalEndTimeTextView.text =
+                RelativeDate(rent.auction.rental_expiration_date).reprRelativeToNow
             rentalDurationTextView.text = Duration(rent.auction.rental_duration).toString()
         }
     }
