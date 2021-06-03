@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,22 +20,29 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
 
     private val repository = Repository()
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerEmpty: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val createdView = inflater.inflate(R.layout.fragment_auction_list, container, false)
+        recyclerEmpty = createdView.findViewById(R.id.auctionsRecyclerEmpty)
         recyclerView = createdView.findViewById(R.id.auctionsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AuctionsAdapter(auctionClickListener)
+        recyclerView.adapter = AuctionsAdapter(auctionClickListener, resources)
+        recyclerView.isNestedScrollingEnabled = false
         DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber { ::auctionsObtained }
         return createdView
     }
 
     private fun auctionsObtained(auctions: ArrayList<Auction>) {
-        (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
-        recyclerView.adapter?.notifyDataSetChanged()
+        if (auctions.size > 0) {
+            (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
+            recyclerView.adapter?.notifyDataSetChanged()
+            recyclerView.visibility = View.VISIBLE
+            recyclerEmpty.visibility = View.GONE
+        }
     }
 
     private fun requestFailed(){

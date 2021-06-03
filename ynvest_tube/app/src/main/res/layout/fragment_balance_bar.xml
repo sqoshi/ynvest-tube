@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/balance_bar_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingVertical="10dp"
+    tools:context=".fragments.BalanceBarFragment">
+
+    <TextView
+        android:id="@+id/balanceBarFragment_userBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/icon_coin"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:text="@string/sample_text"
+        android:textColor="@color/white"
+        tools:ignore="UseCompatTextViewDrawableXml" />
+
+</LinearLayout>

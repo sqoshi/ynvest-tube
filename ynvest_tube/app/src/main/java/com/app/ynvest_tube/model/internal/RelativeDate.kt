@@ -38,7 +38,7 @@ class RelativeDate(dateStr: String) {
                 }
                 else -> {
                     val day = date.dayOfMonth.toString().padStart(2, '0')
-                    val month = date.month.toString().padStart(2, '0')
+                    val month = date.month.value.toString().padStart(2, '0')
                     val year = date.year.toString().padStart(4, '0')
                     "${day}-${month}-${year} "
                 }
