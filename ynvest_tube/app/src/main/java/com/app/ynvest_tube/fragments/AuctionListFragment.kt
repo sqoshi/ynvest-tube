@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.adapters.AuctionsAdapter
 import com.app.ynvest_tube.model.Auction
+import com.app.ynvest_tube.refresher.AuctionListSubscriber
+import com.app.ynvest_tube.refresher.DataRefresher
 import com.app.ynvest_tube.repository.Repository
 
 class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) : Fragment() {
@@ -26,7 +28,7 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         recyclerView = createdView.findViewById(R.id.auctionsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AuctionsAdapter(auctionClickListener)
-        repository.getActionList(::auctionsObtained, ::requestFailed)
+        DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber { ::auctionsObtained }
         return createdView
     }
 

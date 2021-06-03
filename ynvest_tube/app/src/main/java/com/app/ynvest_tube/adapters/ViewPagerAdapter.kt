@@ -13,17 +13,8 @@ class ViewPagerAdapter(
 ) :
     FragmentStateAdapter(fragmentActivity) {
 
-    private var activated = false
-
     override fun getItemCount() : Int {
-        if(!activated)
-            return 0
         return 2
-    }
-
-    public fun activate() {
-        activated = true
-        notifyDataSetChanged()
     }
 
     override fun createFragment(position: Int): Fragment {

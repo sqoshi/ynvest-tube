@@ -11,6 +11,9 @@ import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.internal.Duration
 import com.app.ynvest_tube.model.internal.RelativeDate
+import com.app.ynvest_tube.refresher.AuctionSubscriber
+import com.app.ynvest_tube.refresher.DataRefresher
+import com.app.ynvest_tube.refresher.UserDetailsSubscriber
 import com.app.ynvest_tube.repository.Repository
 import java.util.regex.Pattern
 
@@ -23,16 +26,19 @@ class AuctionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auction)
 
+        DataRefresher.toastContext = this
+
         auctionId = intent.getIntExtra(Auction::id.name, 0)
 
         if (auctionId == 0)
             finish()
 
-        repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
+        DataRefresher.auctionSubscribers["viewedAuction_$auctionId"] = AuctionSubscriber(::insertAuctionData, auctionId)
     }
 
-    private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse) {
-        insertAuctionData(auctionDetails)
+    override fun onBackPressed() {
+        DataRefresher.auctionSubscribers.remove("viewedAuction_$auctionId")
+        super.onBackPressed()
     }
 
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
