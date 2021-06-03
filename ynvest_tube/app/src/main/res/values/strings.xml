@@ -20,4 +20,8 @@
     <string name="rentalduration">rentalDuration</string>
     <string name="auctionexpiration">auctionExpiration</string>
     <string name="lastbid">lastBid</string>
+    <string name="auctionview_auctionstatus">auctionView_auctionStatus</string>
+
+    <string name="highest_bid">highest bid</string>
+    <string name="not_highest_bid">someone bid higher</string>
 </resources>

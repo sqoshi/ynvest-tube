@@ -1,43 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="50dp"
     android:background="@drawable/rect_foreground"
+    android:orientation="vertical"
     android:padding="20dp">
 
-    <TextView
-        android:id="@+id/movieNameTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="@string/sample_text"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/startDateTextView"
-        app:layout_constraintHorizontal_weight="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintVertical_chainStyle="packed" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/startDateTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/sample_text"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.2"
-        app:layout_constraintStart_toEndOf="@id/movieNameTextView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        <TextView
+            android:id="@+id/movieNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/startDateTextView"
+            app:layout_constraintHorizontal_weight="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/startDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintStart_toEndOf="@id/movieNameTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/auctionView_auctionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/highest_bid"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:drawableStart="@drawable/icon_check"
+            tools:ignore="UseCompatTextViewDrawableXml"
+            android:drawablePadding="5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

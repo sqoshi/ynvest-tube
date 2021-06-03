@@ -28,7 +28,7 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         recyclerEmpty = createdView.findViewById(R.id.auctionsRecyclerEmpty)
         recyclerView = createdView.findViewById(R.id.auctionsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AuctionsAdapter(auctionClickListener)
+        recyclerView.adapter = AuctionsAdapter(auctionClickListener, resources)
         recyclerView.isNestedScrollingEnabled = false
         repository.getActionList(::auctionsObtained, ::requestFailed)
         return createdView
