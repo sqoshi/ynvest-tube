@@ -13,16 +13,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/navigationActivity_userBalance"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navigationActivity_balanceBarFragment"
+        android:name="com.app.ynvest_tube.fragments.BalanceBarFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/balance_bar_background"
-        android:paddingVertical="10dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0" />
+        tools:layout="@layout/fragment_balance_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

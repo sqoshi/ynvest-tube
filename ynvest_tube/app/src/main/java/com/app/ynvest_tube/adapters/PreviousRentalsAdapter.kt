@@ -7,18 +7,38 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Rent
+import com.app.ynvest_tube.model.internal.Duration
+import com.app.ynvest_tube.model.internal.RelativeDate
 
 class PreviousRentalsAdapter : RecyclerView.Adapter<PreviousRentalsAdapter.ViewHolder>() {
 
     var dataSet: ArrayList<Rent> = ArrayList()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val videoNameTextView = view.findViewById<TextView>(R.id.previousRentalView_videoTitle)
-        private val gainsTextView = view.findViewById<TextView>(R.id.previousRentalView_gain)
+        private val videoNameTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_videoTitle)
+        private val beginningViewsTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_beginningViews)
+        private val endingViewsTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_endingViews)
+        private val moneySpentTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_moneySpent)
+        private val moneyGainedTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_moneyGained)
+        private val rentalEndTimeTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_rentalEndTime)
+        private val rentalDurationTextView =
+            view.findViewById<TextView>(R.id.previousRentalView_rentalDuration)
 
         fun bindRent(rent: Rent) {
             videoNameTextView.text = rent.auction.video.title
-            gainsTextView.text = rent.profit.toString()
+            beginningViewsTextView.text = rent.auction.video_views_on_sold?.toString()
+            endingViewsTextView.text = rent.auction.video.views.toString()
+            moneySpentTextView.text = rent.auction.last_bid_value?.toString()
+            moneyGainedTextView.text =
+                (rent.auction.video.views - rent.auction.video_views_on_sold!!).toString()
+            rentalEndTimeTextView.text = RelativeDate(rent.auction.rental_expiration_date).reprRelativeToNow
+            rentalDurationTextView.text = Duration(rent.auction.rental_duration).toString()
         }
     }
 

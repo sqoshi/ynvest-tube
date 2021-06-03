@@ -1,31 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/previousRentalView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rect_background"
+    android:layout_marginBottom="50dp"
+    android:background="@drawable/rect_foreground"
     android:padding="20dp">
 
     <TextView
         android:id="@+id/previousRentalView_videoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:text="@string/sample_text"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/previousRentalView_gain"
+        android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/previousRentalView_gain"
+    <LinearLayout
+        android:id="@+id/previousRentalView_viewsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sample_text"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previousRentalView_videoTitle" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/previousRentalView_videoTitle">
+
+        <TextView
+            android:id="@+id/previousRentalView_beginningViews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:drawableStart="@drawable/icon_eye"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+        <TextView
+            android:id="@+id/previousRentalView_endingViews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/icon_arrow_right"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/previousRentalView_timeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/previousRentalView_viewsLayout">
+
+        <TextView
+            android:id="@+id/previousRentalView_rentalEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/icon_calendar"
+            android:drawablePadding="10dp"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+        <TextView
+            android:id="@+id/previousRentalView_rentalDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_watch"
+            android:drawablePadding="10dp"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/previousRentalView_moneyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/previousRentalView_timeLayout">
+
+        <TextView
+            android:id="@+id/previousRentalView_moneySpent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/icon_money_lose"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/previousRentalView_moneyGained"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+        <TextView
+            android:id="@+id/previousRentalView_moneyGained"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_money_gain"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/sample_text"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/previousRentalView_moneySpent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompatTextViewDrawableXml" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
