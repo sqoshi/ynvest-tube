@@ -1,23 +1,26 @@
 package com.app.ynvest_tube.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.internal.Duration
 import com.app.ynvest_tube.model.internal.RelativeDate
 import com.app.ynvest_tube.repository.Repository
-import java.util.regex.Pattern
+import kotlinx.coroutines.*
 
 class AuctionActivity : AppCompatActivity() {
 
     private val repository = Repository()
     private var auctionId: Int = 0
+    private var auctionExpiration: RelativeDate? = null
+    private lateinit var auctionExpirationUpdater: Job
+    private var auctionExpirationTextView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,31 @@ class AuctionActivity : AppCompatActivity() {
         if (auctionId == 0)
             finish()
 
+        auctionExpirationTextView = findViewById(R.id.auctionActivity_auctionExpiration)
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        auctionExpirationUpdater = GlobalScope.launch {
+            var scheduledUpdateTime = System.nanoTime()
+            while (true) {
+                val startTime = System.nanoTime()
+                auctionExpirationTextView?.text = auctionExpiration?.timeLeft
+                val sleepTime = 1_000_000_000 + scheduledUpdateTime - startTime
+                scheduledUpdateTime += 1_000_000_000
+                if (sleepTime > 0) {
+                    delay(sleepTime / 1_000_000)
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        GlobalScope.launch {
+            auctionExpirationUpdater.cancelAndJoin()
+        }
     }
 
     private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse) {
@@ -76,8 +103,8 @@ class AuctionActivity : AppCompatActivity() {
             auctionDetails.auction.video.likes.toString()
 
         val expirationDateStr = auctionDetails.auction.auction_expiration_date
-        val relativeDate = RelativeDate(expirationDateStr)
-        findViewById<TextView>(R.id.auctionActivity_auctionExpiration).text = relativeDate.timeLeft
+        auctionExpiration = RelativeDate(expirationDateStr)
+        auctionExpirationTextView?.text = auctionExpiration?.timeLeft
     }
 
     fun onBid(view: View) {
