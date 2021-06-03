@@ -13,6 +13,7 @@
 
     <string name="current_rentals">Current Rentals</string>
     <string name="archive_rentals">Previous Rentals</string>
+    <string name="auctions">Auctions</string>
     <string name="empty">nothing to show here</string>
 
     <string name="sample_text">Sample Text</string>

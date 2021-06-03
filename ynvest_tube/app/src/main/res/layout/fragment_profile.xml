@@ -33,16 +33,16 @@
                     android:id="@+id/profileFragment_currentRentalsEmpty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/empty"
-                    android:layout_marginStart="40dp"/>
+                    android:layout_marginStart="40dp"
+                    android:text="@string/empty" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profileFragment_currentRentalsRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="40dp"
-                    android:visibility="gone"
-                    android:paddingTop="50dp"/>
+                    android:paddingTop="50dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -63,15 +63,16 @@
                     android:id="@+id/profileFragment_previousRentalsEmpty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/empty"
-                    android:layout_marginStart="40dp"/>
+                    android:layout_marginStart="40dp"
+                    android:text="@string/empty" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/profileFragment_previousRentalsRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:paddingTop="50dp" />
+                    android:paddingHorizontal="40dp"
+                    android:paddingTop="50dp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

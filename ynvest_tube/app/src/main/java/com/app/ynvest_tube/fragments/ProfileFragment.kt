@@ -28,15 +28,17 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        emptyCurrentRentals = view.findViewById(R.id.profileFragment_currentRentalsEmpty)
+        emptyPreviousRentals = view.findViewById(R.id.profileFragment_previousRentalsEmpty)
         currentRentals = view.findViewById(R.id.profileFragment_currentRentalsRecycler)
         currentRentals.layoutManager = LinearLayoutManager(activity)
         currentRentals.adapter = CurrentRentalsAdapter()
+        currentRentals.isNestedScrollingEnabled = false
         previousRentals = view.findViewById(R.id.profileFragment_previousRentalsRecycler)
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
+        previousRentals.isNestedScrollingEnabled = false
         repository.getUserDetails(::userDetailsObtained, ::requestFailed)
-        emptyCurrentRentals = view.findViewById(R.id.profileFragment_currentRentalsEmpty)
-        emptyPreviousRentals = view.findViewById(R.id.profileFragment_previousRentalsEmpty)
         return view
     }
 
