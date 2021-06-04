@@ -32,7 +32,7 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AuctionsAdapter(auctionClickListener, resources)
         recyclerView.isNestedScrollingEnabled = false
-        DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber { ::auctionsObtained }
+        DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber(::auctionsObtained)
         return createdView
     }
 
@@ -42,6 +42,11 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
             recyclerView.adapter?.notifyDataSetChanged()
             recyclerView.visibility = View.VISIBLE
             recyclerEmpty.visibility = View.GONE
+        } else {
+            (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
+            recyclerView.adapter?.notifyDataSetChanged()
+            recyclerView.visibility = View.GONE
+            recyclerEmpty.visibility = View.VISIBLE
         }
     }
 

@@ -12,6 +12,7 @@ import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.User
 import com.app.ynvest_tube.model.UserDetailsResponse
 import com.app.ynvest_tube.repository.Repository
+import java.lang.Thread.sleep
 
 class DataRefresher {
     companion object {
@@ -48,6 +49,8 @@ class DataRefresher {
                         subscriber.auctionId
                     )
                 }
+
+                sleep(1000)
             }
         })
 

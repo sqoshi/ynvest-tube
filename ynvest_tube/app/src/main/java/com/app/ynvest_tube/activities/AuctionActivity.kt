@@ -80,7 +80,6 @@ class AuctionActivity : AppCompatActivity() {
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
         Toast.makeText(this, "You successfully bet", Toast.LENGTH_SHORT).show()
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
-        refreshUserBalance()
     }
 
     private fun notEnoughValueInBid() {
@@ -161,10 +160,5 @@ class AuctionActivity : AppCompatActivity() {
             ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
             auctionId, bidAmount
         )
-    }
-
-    private fun refreshUserBalance() {
-        (supportFragmentManager.findFragmentById(R.id.auctionActivity_balanceBarFragment)
-                as BalanceBarFragment).refresh()
     }
 }

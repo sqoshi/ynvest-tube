@@ -41,7 +41,7 @@ class ProfileFragment : Fragment() {
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
         previousRentals.isNestedScrollingEnabled = false
-        DataRefresher.userDetailsSubscribers["userDetailsView"] = UserDetailsSubscriber { ::userDetailsObtained }
+        DataRefresher.userDetailsSubscribers["userDetailsView"] = UserDetailsSubscriber(::userDetailsObtained)
         return view
     }
 
