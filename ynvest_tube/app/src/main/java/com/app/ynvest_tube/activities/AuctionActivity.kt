@@ -1,6 +1,5 @@
 package com.app.ynvest_tube.activities
 
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
@@ -9,14 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.app.ynvest_tube.R
-import com.app.ynvest_tube.fragments.BalanceBarFragment
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
+import com.app.ynvest_tube.model.User
 import com.app.ynvest_tube.model.internal.Duration
 import com.app.ynvest_tube.model.internal.RelativeDate
-import com.app.ynvest_tube.refresher.AuctionSubscriber
 import com.app.ynvest_tube.refresher.DataRefresher
-import com.app.ynvest_tube.refresher.UserDetailsSubscriber
 import com.app.ynvest_tube.repository.Repository
 import kotlinx.coroutines.*
 
@@ -28,12 +25,12 @@ class AuctionActivity : AppCompatActivity() {
     private var auctionExpiration: RelativeDate? = null
     private lateinit var auctionExpirationUpdater: Job
     private var auctionExpirationTextView: TextView? = null
+    private var currentUserCash = 0
+    private var currentBid = 0
 
-    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auction)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         DataRefresher.toastContext = this
 
@@ -43,11 +40,13 @@ class AuctionActivity : AppCompatActivity() {
             finish()
 
         auctionExpirationTextView = findViewById(R.id.auctionActivity_auctionExpiration)
-        dataRefresher.subscribeToAuctionEndpoint("viewedAuction_$auctionId", ::insertAuctionData, auctionId)
+        dataRefresher.subscribeToAuctionEndpoint("viewedAuction_$auctionId", ::auctionDetailsObtained, auctionId)
+        dataRefresher.subscribeToUserEndpoint("userCashInAuction", ::userCashUpdated)
     }
 
     override fun onBackPressed() {
         dataRefresher.unsubscribeToAuctionEndpoint("viewedAuction_$auctionId")
+        dataRefresher.unsubscribeToUserEndpoint("userCashInAuction")
         super.onBackPressed()
     }
 
@@ -76,6 +75,7 @@ class AuctionActivity : AppCompatActivity() {
 
     private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse) {
         insertAuctionData(auctionDetails)
+        currentBid = auctionDetails.auction.last_bid_value ?: auctionDetails.auction.starting_price
     }
 
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
@@ -83,12 +83,14 @@ class AuctionActivity : AppCompatActivity() {
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
     }
 
-    private fun notEnoughValueInBid() {
-        Toast.makeText(this, "Bid too low", Toast.LENGTH_SHORT).show()
+    private fun badBidValue() {
+        Toast.makeText(this, "Invalid bid value", Toast.LENGTH_SHORT).show()
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
     }
 
     private fun auctionEnded() {
+        dataRefresher.unsubscribeToAuctionEndpoint("viewedAuction_$auctionId")
+        dataRefresher.unsubscribeToUserEndpoint("userCashInAuction")
         Toast.makeText(this, "Auction has ended", Toast.LENGTH_SHORT).show()
         finish()
 
@@ -156,10 +158,25 @@ class AuctionActivity : AppCompatActivity() {
             Toast.makeText(this, "Enter amount", Toast.LENGTH_SHORT).show()
             return
         }
+
         val bidAmount = bidAmountStr.toInt()
+        if(bidAmount > currentUserCash) {
+            Toast.makeText(this, "You can't afford to bid this high", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if(bidAmount <= currentBid) {
+            Toast.makeText(this, "Bid too low", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         repository.bidOnAuction(
-            ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
+            ::bidSuccessful, ::requestFailed, ::badBidValue, ::auctionEnded,
             auctionId, bidAmount
         )
+    }
+
+    private fun userCashUpdated(user: User){
+        currentUserCash = user.cash
     }
 }

@@ -28,7 +28,7 @@ class DataRefresher {
         var toastContext: Context? = null
     }
 
-    private val refreshRateInMilis: Long = 2000
+    private val refreshRateInMilis: Long = 1000
 
     fun startRefresher() {
         repository = Repository()
