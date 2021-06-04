@@ -17,6 +17,8 @@
     <string name="empty">nothing to show here</string>
 
     <string name="sample_text">Sample Text</string>
+    <string name="long_sample_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae congue eros. Nullam nulla quam, sagittis ut elementum at, luctus sed tellus. Cras tincidunt convallis porta. Cras convallis sollicitudin elit in pulvinar. Morbi accumsan molestie massa vel vulputate. Maecenas sodales tincidunt ornare. Proin tempus ultricies eros sit amet imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </string>
+
     <string name="rentalduration">rentalDuration</string>
     <string name="auctionexpiration">auctionExpiration</string>
     <string name="lastbid">lastBid</string>

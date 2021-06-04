@@ -123,9 +123,8 @@
         <ScrollView
             android:id="@+id/auctionActivity_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="50dp"
-            android:paddingBottom="20dp">
+            android:layout_height="60dp"
+            android:maxHeight="50dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,7 +135,7 @@
                     android:id="@+id/auctionActivity_videoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sample_text"
+                    android:text="@string/long_sample_text"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
