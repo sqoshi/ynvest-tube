@@ -19,9 +19,11 @@ class Repository {
         private lateinit var userId: UUID
     }
 
+    private val connectionUrl = "http://192.168.0.115:8000";
+
     fun initialize(id: UUID) {
         apiRequestService = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8000")
+            .baseUrl(connectionUrl)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .build()
             .create(ApiRequestService::class.java)
@@ -31,7 +33,7 @@ class Repository {
 
     fun initializeWithUserRegistration(successCallback: (UUID) -> Unit, failedCallback: () -> Unit) {
         apiRequestService = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8000")
+            .baseUrl(connectionUrl)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .build()
             .create(ApiRequestService::class.java)
