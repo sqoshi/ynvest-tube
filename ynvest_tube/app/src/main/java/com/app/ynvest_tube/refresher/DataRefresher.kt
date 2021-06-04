@@ -16,7 +16,7 @@ import java.lang.Thread.sleep
 
 class DataRefresher {
     companion object {
-        private lateinit var repository: Repository
+        private var repository: Repository? = null
 
         private lateinit var refreshTask: Thread
 
@@ -36,16 +36,16 @@ class DataRefresher {
         refreshTask = Thread(Runnable {
             while (true) {
                 if (userSubscribers.any())
-                    repository.getUser(::userObtained, ::requestFailed)
+                    repository!!.getUser(::userObtained, ::requestFailed)
 
                 if (userDetailsSubscribers.any())
-                    repository.getUserDetails(::userDetailsObtained, ::requestFailed)
+                    repository!!.getUserDetails(::userDetailsObtained, ::requestFailed)
 
                 if (auctionListSubscribers.any())
-                    repository.getActionList(::auctionListObtained, ::requestFailed)
+                    repository!!.getActionList(::auctionListObtained, ::requestFailed)
 
                 for (subscriber in auctionSubscribers.values) {
-                    repository.getActionDetails(
+                    repository!!.getActionDetails(
                         subscriber.successful,
                         ::requestFailed,
                         subscriber.auctionId
@@ -62,19 +62,19 @@ class DataRefresher {
     fun subscribeToUserEndpoint(key: String, successful: (User) -> Unit) {
         userSubscribers[key] = UserSubscriber(successful)
 
-        repository.getUser(::userObtained, ::requestFailed)
+        repository?.getUser(::userObtained, ::requestFailed)
     }
 
     fun subscribeToUserDetailsEndpoint(key: String, successful: (UserDetailsResponse) -> Unit) {
         userDetailsSubscribers[key] = UserDetailsSubscriber(successful)
 
-        repository.getUserDetails(::userDetailsObtained, ::requestFailed)
+        repository?.getUserDetails(::userDetailsObtained, ::requestFailed)
     }
 
     fun subscribeToAuctionListEndpoint(key: String, successful: (ArrayList<Auction>) -> Unit) {
         auctionListSubscribers[key] = AuctionListSubscriber(successful)
 
-        repository.getActionList(::auctionListObtained, ::requestFailed)
+        repository?.getActionList(::auctionListObtained, ::requestFailed)
     }
 
     fun subscribeToAuctionEndpoint(
@@ -84,7 +84,7 @@ class DataRefresher {
     ) {
         auctionSubscribers[key] = AuctionSubscriber(successful, auctionId)
 
-        repository.getActionDetails(
+        repository?.getActionDetails(
             successful,
             ::requestFailed,
             auctionId
