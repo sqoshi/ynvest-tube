@@ -105,8 +105,8 @@ class AuctionActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.auctionActivity_bidders).text =
             resources.getQuantityString(
                 R.plurals.bidders_amount,
-                auctionDetails.auctionBidders,
-                auctionDetails.auctionBidders
+                auctionDetails.auctionBiddersCount,
+                auctionDetails.auctionBiddersCount
             )
         findViewById<TextView>(R.id.auctionActivity_lastBid).text =
             (auctionDetails.auction.last_bid_value
