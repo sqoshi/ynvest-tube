@@ -1,11 +1,8 @@
 package com.app.ynvest_tube.activities
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.app.ynvest_tube.adapters.ViewPagerAdapter
@@ -23,13 +20,11 @@ class NavigationActivity : FragmentActivity() {
 
     private lateinit var binding: ActivityNavigationBinding
 
-    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         binding.viewPager.adapter = viewPagerAdapter
         DataRefresher.toastContext = this
