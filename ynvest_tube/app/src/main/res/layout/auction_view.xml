@@ -10,41 +10,35 @@
     android:orientation="vertical"
     android:padding="20dp">
 
+    <TextView
+        android:id="@+id/movieNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/sample_text"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/movieNameTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="@string/sample_text"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/startDateTextView"
-            app:layout_constraintHorizontal_weight="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
             android:id="@+id/startDateTextView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_calendar"
+            android:drawablePadding="10dp"
             android:text="@string/sample_text"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.2"
-            app:layout_constraintStart_toEndOf="@id/movieNameTextView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            tools:ignore="UseCompatTextViewDrawableXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,14 +50,14 @@
             android:id="@+id/auctionView_auctionStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/icon_check"
+            android:drawablePadding="5dp"
+            android:gravity="center"
             android:paddingTop="10dp"
             android:text="@string/highest_bid"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:gravity="center"
-            android:drawableStart="@drawable/icon_check"
-            tools:ignore="UseCompatTextViewDrawableXml"
-            android:drawablePadding="5dp"/>
+            tools:ignore="UseCompatTextViewDrawableXml" />
 
     </LinearLayout>
 
