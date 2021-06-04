@@ -28,6 +28,8 @@ class DataRefresher {
         public var toastContext: Context? = null
     }
 
+    private val refreshRateInMilis: Long = 2000
+
     public fun startRefresher() {
         repository = Repository()
 
@@ -50,7 +52,7 @@ class DataRefresher {
                     )
                 }
 
-                sleep(1000)
+                sleep(refreshRateInMilis)
             }
         })
 
