@@ -23,6 +23,7 @@ import kotlinx.coroutines.*
 class AuctionActivity : AppCompatActivity() {
 
     private val repository = Repository()
+    private val dataRefresher = DataRefresher()
     private var auctionId: Int = 0
     private var auctionExpiration: RelativeDate? = null
     private lateinit var auctionExpirationUpdater: Job
@@ -42,11 +43,11 @@ class AuctionActivity : AppCompatActivity() {
             finish()
 
         auctionExpirationTextView = findViewById(R.id.auctionActivity_auctionExpiration)
-        DataRefresher.auctionSubscribers["viewedAuction_$auctionId"] = AuctionSubscriber(::insertAuctionData, auctionId)
+        dataRefresher.subscribeToAuctionEndpoint("viewedAuction_$auctionId", ::insertAuctionData, auctionId)
     }
 
     override fun onBackPressed() {
-        DataRefresher.auctionSubscribers.remove("viewedAuction_$auctionId")
+        dataRefresher.unsubscribeToAuctionEndpoint("viewedAuction_$auctionId")
         super.onBackPressed()
     }
 

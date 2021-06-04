@@ -10,11 +10,10 @@ import android.widget.Toast
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.User
 import com.app.ynvest_tube.refresher.DataRefresher
-import com.app.ynvest_tube.refresher.UserSubscriber
-import com.app.ynvest_tube.repository.Repository
 
 class BalanceBarFragment : Fragment() {
 
+    private val dataRefresher = DataRefresher()
     private lateinit var fragmentView: View
 
     override fun onCreateView(
@@ -22,16 +21,12 @@ class BalanceBarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.fragment_balance_bar, container, false)
-        DataRefresher.userSubscribers["barView"] = UserSubscriber(::userObtained)
+        dataRefresher.subscribeToUserEndpoint("barView", ::userObtained)
         return fragmentView
     }
 
     private fun userObtained(user: User) {
         fragmentView.findViewById<TextView>(R.id.balanceBarFragment_userBalance)?.text =
             user.cash.toString()
-    }
-
-    private fun requestFailed() {
-        Toast.makeText(activity, "Internet connection is not stable", Toast.LENGTH_SHORT).show()
     }
 }
