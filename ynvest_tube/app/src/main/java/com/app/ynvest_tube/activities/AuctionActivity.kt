@@ -2,6 +2,8 @@ package com.app.ynvest_tube.activities
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -54,11 +56,16 @@ class AuctionActivity : AppCompatActivity() {
         super.onResume()
         auctionExpirationUpdater = GlobalScope.launch {
             var scheduledUpdateTime = System.nanoTime()
+            scheduledUpdateTime -= scheduledUpdateTime % 1_000_000_000
+            scheduledUpdateTime += 1_000_000
             while (true) {
-                val startTime = System.nanoTime()
-                auctionExpirationTextView?.text = auctionExpiration?.timeLeft
-                val sleepTime = 1_000_000_000 + scheduledUpdateTime - startTime
-                scheduledUpdateTime += 1_000_000_000
+                runOnUiThread {
+                    auctionExpirationTextView?.text = auctionExpiration?.timeLeft
+                }
+                while (scheduledUpdateTime < System.nanoTime()) {
+                    scheduledUpdateTime += 1_000_000_000
+                }
+                val sleepTime = scheduledUpdateTime - System.nanoTime()
                 if (sleepTime > 0) {
                     delay(sleepTime / 1_000_000)
                 }
