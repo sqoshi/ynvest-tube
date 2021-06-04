@@ -46,6 +46,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun userDetailsObtained(userDetails: UserDetailsResponse) {
+        userDetails.actualRents.sortBy { it.auction.rental_expiration_date }
         (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
         currentRentals.adapter?.notifyDataSetChanged()
 
@@ -57,6 +58,7 @@ class ProfileFragment : Fragment() {
             emptyCurrentRentals.visibility = View.VISIBLE
         }
 
+        userDetails.expiredRents.sortBy { it.auction.rental_expiration_date }
         (previousRentals.adapter as PreviousRentalsAdapter).dataSet = userDetails.expiredRents
         previousRentals.adapter?.notifyDataSetChanged()
 

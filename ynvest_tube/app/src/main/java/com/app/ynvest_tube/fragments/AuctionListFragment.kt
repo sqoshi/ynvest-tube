@@ -37,6 +37,7 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
     }
 
     private fun auctionsObtained(auctions: ArrayList<Auction>) {
+        auctions.sortBy { it.auction_expiration_date }
         (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
         recyclerView.adapter?.notifyDataSetChanged()
 
