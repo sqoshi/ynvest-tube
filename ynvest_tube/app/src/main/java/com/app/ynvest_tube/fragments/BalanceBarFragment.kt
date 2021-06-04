@@ -9,11 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.model.User
+import com.app.ynvest_tube.refresher.DataRefresher
+import com.app.ynvest_tube.refresher.UserSubscriber
 import com.app.ynvest_tube.repository.Repository
 
 class BalanceBarFragment : Fragment() {
 
-    private val repository = Repository()
     private lateinit var fragmentView: View
 
     override fun onCreateView(
@@ -21,12 +22,8 @@ class BalanceBarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.fragment_balance_bar, container, false)
-        refresh()
+        DataRefresher.userSubscribers["barView"] = UserSubscriber(::userObtained)
         return fragmentView
-    }
-
-    fun refresh() {
-        repository.getUser(::userObtained, ::requestFailed)
     }
 
     private fun userObtained(user: User) {

@@ -13,6 +13,9 @@ import com.app.ynvest_tube.R
 import com.app.ynvest_tube.adapters.CurrentRentalsAdapter
 import com.app.ynvest_tube.adapters.PreviousRentalsAdapter
 import com.app.ynvest_tube.model.UserDetailsResponse
+import com.app.ynvest_tube.refresher.DataRefresher
+import com.app.ynvest_tube.refresher.UserDetailsSubscriber
+import com.app.ynvest_tube.refresher.UserSubscriber
 import com.app.ynvest_tube.repository.Repository
 
 class ProfileFragment : Fragment() {
@@ -38,7 +41,7 @@ class ProfileFragment : Fragment() {
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
         previousRentals.isNestedScrollingEnabled = false
-        repository.getUserDetails(::userDetailsObtained, ::requestFailed)
+        DataRefresher.userDetailsSubscribers["userDetailsView"] = UserDetailsSubscriber(::userDetailsObtained)
         return view
     }
 

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.adapters.AuctionsAdapter
 import com.app.ynvest_tube.model.Auction
+import com.app.ynvest_tube.refresher.AuctionListSubscriber
+import com.app.ynvest_tube.refresher.DataRefresher
 import com.app.ynvest_tube.repository.Repository
 
 class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) : Fragment() {
@@ -30,7 +32,7 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AuctionsAdapter(auctionClickListener, resources)
         recyclerView.isNestedScrollingEnabled = false
-        repository.getActionList(::auctionsObtained, ::requestFailed)
+        DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber(::auctionsObtained)
         return createdView
     }
 
@@ -40,6 +42,11 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
             recyclerView.adapter?.notifyDataSetChanged()
             recyclerView.visibility = View.VISIBLE
             recyclerEmpty.visibility = View.GONE
+        } else {
+            (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
+            recyclerView.adapter?.notifyDataSetChanged()
+            recyclerView.visibility = View.GONE
+            recyclerEmpty.visibility = View.VISIBLE
         }
     }
 

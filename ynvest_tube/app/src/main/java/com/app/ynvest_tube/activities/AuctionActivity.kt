@@ -14,6 +14,9 @@ import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.internal.Duration
 import com.app.ynvest_tube.model.internal.RelativeDate
+import com.app.ynvest_tube.refresher.AuctionSubscriber
+import com.app.ynvest_tube.refresher.DataRefresher
+import com.app.ynvest_tube.refresher.UserDetailsSubscriber
 import com.app.ynvest_tube.repository.Repository
 import kotlinx.coroutines.*
 
@@ -31,13 +34,20 @@ class AuctionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_auction)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+        DataRefresher.toastContext = this
+
         auctionId = intent.getIntExtra(Auction::id.name, 0)
 
         if (auctionId == 0)
             finish()
 
         auctionExpirationTextView = findViewById(R.id.auctionActivity_auctionExpiration)
-        repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
+        DataRefresher.auctionSubscribers["viewedAuction_$auctionId"] = AuctionSubscriber(::insertAuctionData, auctionId)
+    }
+
+    override fun onBackPressed() {
+        DataRefresher.auctionSubscribers.remove("viewedAuction_$auctionId")
+        super.onBackPressed()
     }
 
     override fun onResume() {
@@ -70,7 +80,6 @@ class AuctionActivity : AppCompatActivity() {
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
         Toast.makeText(this, "You successfully bet", Toast.LENGTH_SHORT).show()
         repository.getActionDetails(::auctionDetailsObtained, ::requestFailed, auctionId)
-        refreshUserBalance()
     }
 
     private fun notEnoughValueInBid() {
@@ -151,10 +160,5 @@ class AuctionActivity : AppCompatActivity() {
             ::bidSuccessful, ::requestFailed, ::notEnoughValueInBid, ::auctionEnded,
             auctionId, bidAmount
         )
-    }
-
-    private fun refreshUserBalance() {
-        (supportFragmentManager.findFragmentById(R.id.auctionActivity_balanceBarFragment)
-                as BalanceBarFragment).refresh()
     }
 }
