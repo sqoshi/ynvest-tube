@@ -18,7 +18,7 @@ import com.app.ynvest_tube.repository.Repository
 
 class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) : Fragment() {
 
-    private val repository = Repository()
+    private val dataRefresher = DataRefresher()
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerEmpty: TextView
 
@@ -32,25 +32,20 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AuctionsAdapter(auctionClickListener, resources)
         recyclerView.isNestedScrollingEnabled = false
-        DataRefresher.auctionListSubscribers["auctionListView"] = AuctionListSubscriber(::auctionsObtained)
+        dataRefresher.subscribeToAuctionListEndpoint("auctionListView", ::auctionsObtained)
         return createdView
     }
 
     private fun auctionsObtained(auctions: ArrayList<Auction>) {
+        (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
+        recyclerView.adapter?.notifyDataSetChanged()
+
         if (auctions.size > 0) {
-            (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
-            recyclerView.adapter?.notifyDataSetChanged()
             recyclerView.visibility = View.VISIBLE
             recyclerEmpty.visibility = View.GONE
         } else {
-            (recyclerView.adapter as AuctionsAdapter).dataSet = auctions
-            recyclerView.adapter?.notifyDataSetChanged()
             recyclerView.visibility = View.GONE
             recyclerEmpty.visibility = View.VISIBLE
         }
-    }
-
-    private fun requestFailed(){
-        Toast.makeText(activity, "Internet connection is not stable", Toast.LENGTH_SHORT).show()
     }
 }

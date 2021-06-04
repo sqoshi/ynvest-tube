@@ -20,17 +20,17 @@ class DataRefresher {
 
         private lateinit var refreshTask: Thread
 
-        public var userSubscribers = mutableMapOf<String, UserSubscriber>()
-        public var userDetailsSubscribers = mutableMapOf<String, UserDetailsSubscriber>()
-        public var auctionListSubscribers = mutableMapOf<String, AuctionListSubscriber>()
-        public var auctionSubscribers = mutableMapOf<String, AuctionSubscriber>()
+        private var userSubscribers = mutableMapOf<String, UserSubscriber>()
+        private var userDetailsSubscribers = mutableMapOf<String, UserDetailsSubscriber>()
+        private var auctionListSubscribers = mutableMapOf<String, AuctionListSubscriber>()
+        private var auctionSubscribers = mutableMapOf<String, AuctionSubscriber>()
 
-        public var toastContext: Context? = null
+        var toastContext: Context? = null
     }
 
     private val refreshRateInMilis: Long = 2000
 
-    public fun startRefresher() {
+    fun startRefresher() {
         repository = Repository()
 
         refreshTask = Thread(Runnable {
@@ -59,6 +59,54 @@ class DataRefresher {
         refreshTask.start()
     }
 
+    fun subscribeToUserEndpoint(key: String, successful: (User) -> Unit) {
+        userSubscribers[key] = UserSubscriber(successful)
+
+        repository.getUser(::userObtained, ::requestFailed)
+    }
+
+    fun subscribeToUserDetailsEndpoint(key: String, successful: (UserDetailsResponse) -> Unit) {
+        userDetailsSubscribers[key] = UserDetailsSubscriber(successful)
+
+        repository.getUserDetails(::userDetailsObtained, ::requestFailed)
+    }
+
+    fun subscribeToAuctionListEndpoint(key: String, successful: (ArrayList<Auction>) -> Unit) {
+        auctionListSubscribers[key] = AuctionListSubscriber(successful)
+
+        repository.getActionList(::auctionListObtained, ::requestFailed)
+    }
+
+    fun subscribeToAuctionEndpoint(
+        key: String,
+        successful: (AuctionDetailsResponse) -> Unit,
+        auctionId: Int
+    ) {
+        auctionSubscribers[key] = AuctionSubscriber(successful, auctionId)
+
+        repository.getActionDetails(
+            successful,
+            ::requestFailed,
+            auctionId
+        )
+    }
+
+    fun unsubscribeToUserEndpoint(key: String) {
+        userSubscribers.remove(key)
+    }
+
+    fun unsubscribeToUserDetailsEndpoint(key: String) {
+        userDetailsSubscribers.remove(key)
+    }
+
+    fun unsubscribeToAuctionListEndpoint(key: String) {
+        auctionListSubscribers.remove(key)
+    }
+
+    fun unsubscribeToAuctionEndpoint(key: String) {
+        auctionSubscribers.remove(key)
+    }
+
     private fun auctionListObtained(auctions: ArrayList<Auction>) {
         for (subscriber in auctionListSubscribers.values) {
             subscriber.successful(auctions)
@@ -78,7 +126,8 @@ class DataRefresher {
     }
 
     private fun requestFailed() {
-        if(toastContext != null)
-            Toast.makeText(toastContext, "Internet connection is not stable", Toast.LENGTH_SHORT).show()
+        if (toastContext != null)
+            Toast.makeText(toastContext, "Internet connection is not stable", Toast.LENGTH_SHORT)
+                .show()
     }
 }

@@ -20,7 +20,7 @@ import com.app.ynvest_tube.repository.Repository
 
 class ProfileFragment : Fragment() {
 
-    private val repository = Repository()
+    private val dataRefresher = DataRefresher()
     private lateinit var currentRentals: RecyclerView
     private lateinit var previousRentals: RecyclerView
     private lateinit var emptyCurrentRentals: TextView
@@ -41,27 +41,32 @@ class ProfileFragment : Fragment() {
         previousRentals.layoutManager = LinearLayoutManager(activity)
         previousRentals.adapter = PreviousRentalsAdapter()
         previousRentals.isNestedScrollingEnabled = false
-        DataRefresher.userDetailsSubscribers["userDetailsView"] = UserDetailsSubscriber(::userDetailsObtained)
+        dataRefresher.subscribeToUserDetailsEndpoint("userDetailsView", ::userDetailsObtained)
         return view
     }
 
     private fun userDetailsObtained(userDetails: UserDetailsResponse) {
+        (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
+        currentRentals.adapter?.notifyDataSetChanged()
+
         if (userDetails.actualRents.size > 0) {
-            (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
-            currentRentals.adapter?.notifyDataSetChanged()
             currentRentals.visibility = View.VISIBLE
             emptyCurrentRentals.visibility = View.GONE
+        } else {
+            currentRentals.visibility = View.GONE
+            emptyCurrentRentals.visibility = View.VISIBLE
         }
+
+        (previousRentals.adapter as PreviousRentalsAdapter).dataSet = userDetails.expiredRents
+        previousRentals.adapter?.notifyDataSetChanged()
 
         if (userDetails.expiredRents.size > 0) {
-            (previousRentals.adapter as PreviousRentalsAdapter).dataSet = userDetails.expiredRents
-            previousRentals.adapter?.notifyDataSetChanged()
             previousRentals.visibility = View.VISIBLE
             emptyPreviousRentals.visibility = View.GONE
-        }
-    }
+        } else {
 
-    private fun requestFailed() {
-        Toast.makeText(activity, "Internet connection is not stable", Toast.LENGTH_SHORT).show()
+            previousRentals.visibility = View.GONE
+            emptyPreviousRentals.visibility = View.VISIBLE
+        }
     }
 }
