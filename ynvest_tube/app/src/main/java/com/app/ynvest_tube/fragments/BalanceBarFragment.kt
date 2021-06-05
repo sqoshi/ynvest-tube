@@ -21,12 +21,22 @@ class BalanceBarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.fragment_balance_bar, container, false)
-        dataRefresher.subscribeToUserEndpoint("barView", ::userObtained)
+        dataRefresher.subscribeToUserEndpoint("barView_${activity?.componentName}", ::userObtained)
         return fragmentView
     }
 
     private fun userObtained(user: User) {
         fragmentView.findViewById<TextView>(R.id.balanceBarFragment_userBalance)?.text =
             user.cash.toString()
+    }
+
+    override fun onResume() {
+        dataRefresher.subscribeToUserEndpoint("barView_${activity?.componentName}", ::userObtained)
+        super.onResume()
+    }
+
+    override fun onStop() {
+        dataRefresher.unsubscribeToUserEndpoint("barView_${activity?.componentName}")
+        super.onStop()
     }
 }

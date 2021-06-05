@@ -46,6 +46,16 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    override fun onStop() {
+        dataRefresher.unsubscribeToUserDetailsEndpoint("userDetailsView")
+        super.onStop()
+    }
+
+    override fun onResume() {
+        dataRefresher.subscribeToUserDetailsEndpoint("userDetailsView", ::userDetailsObtained)
+        super.onResume()
+    }
+
     private fun userDetailsObtained(
         previousUserDetails: UserDetailsResponse?,
         userDetails: UserDetailsResponse
