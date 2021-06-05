@@ -35,12 +35,10 @@ class PreviousRentalsAdapter : RecyclerView.Adapter<PreviousRentalsAdapter.ViewH
         fun bindRent(rent: Rent) {
             videoNameTextView.text = rent.auction.video.title
             beginningViewsTextView.text = rent.auction.video_views_on_sold?.toString()
-            endingViewsTextView.text = rent.auction.video.views.toString()
+            endingViewsTextView.text = (rent.auction.video_views_on_sold!! + rent.profit).toString()
             moneySpentTextView.text = rent.auction.last_bid_value?.toString()
-            moneyGainedTextView.text =
-                (rent.auction.video.views - rent.auction.video_views_on_sold!!).toString()
-            moneyAbsoluteTextView.text =
-                (rent.auction.video.views - rent.auction.video_views_on_sold - rent.auction.last_bid_value!!).toString()
+            moneyGainedTextView.text = rent.profit.toString()
+            moneyAbsoluteTextView.text = (rent.profit - rent.auction.last_bid_value!!).toString()
             rentalEndTimeTextView.text =
                 RelativeDate(rent.auction.rental_expiration_date).reprRelativeToNow
             rentalDurationTextView.text = Duration(rent.auction.rental_duration).toString()
