@@ -34,6 +34,16 @@ class AuctionListFragment(private val auctionClickListener: (Auction) -> Unit) :
         return createdView
     }
 
+    override fun onStop() {
+        dataRefresher.unsubscribeToAuctionListEndpoint("auctionListView")
+        super.onStop()
+    }
+
+    override fun onResume() {
+        dataRefresher.subscribeToAuctionListEndpoint("auctionListView", ::auctionsObtained)
+        super.onResume()
+    }
+
     private fun auctionsObtained(
         previousAuctions: ArrayList<Auction>,
         auctions: ArrayList<Auction>

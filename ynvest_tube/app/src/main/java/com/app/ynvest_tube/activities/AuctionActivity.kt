@@ -29,6 +29,7 @@ class AuctionActivity : AppCompatActivity() {
     private var auctionExpirationTextView: TextView? = null
     private var currentUserCash = 0
     private var currentBid = 0
+    private var isUserOwnBid = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,8 @@ class AuctionActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        dataRefresher.subscribeToAuctionEndpoint("viewedAuction_$auctionId", ::auctionDetailsObtained, auctionId)
+        dataRefresher.subscribeToUserEndpoint("userCashInAuction", ::userCashUpdated)
         auctionExpirationUpdater = GlobalScope.launch {
             var scheduledUpdateTime = System.nanoTime()
             scheduledUpdateTime -= scheduledUpdateTime % 1_000_000_000
@@ -81,6 +84,8 @@ class AuctionActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        dataRefresher.unsubscribeToAuctionEndpoint("viewedAuction_$auctionId")
+        dataRefresher.unsubscribeToUserEndpoint("userCashInAuction")
         GlobalScope.launch {
             auctionExpirationUpdater.cancelAndJoin()
         }
@@ -89,6 +94,7 @@ class AuctionActivity : AppCompatActivity() {
     private fun auctionDetailsObtained(auctionDetails: AuctionDetailsResponse) {
         insertAuctionData(auctionDetails)
         currentBid = auctionDetails.auction.last_bid_value ?: auctionDetails.auction.starting_price
+        isUserOwnBid = auctionDetails.auction.user_contribution == 2
     }
 
     private fun bidSuccessful(auctionDetails: AuctionDetailsResponse) {
@@ -173,7 +179,11 @@ class AuctionActivity : AppCompatActivity() {
         }
 
         val bidAmount = bidAmountStr.toInt()
-        if(bidAmount > currentUserCash) {
+        var cashToBid = currentUserCash
+        if(isUserOwnBid)
+            cashToBid += currentBid
+        
+        if(bidAmount > cashToBid) {
             Toast.makeText(this, "You can't afford to bid this high", Toast.LENGTH_SHORT).show()
             return
         }
