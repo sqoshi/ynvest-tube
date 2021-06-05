@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.ynvest_tube.R
 import com.app.ynvest_tube.adapters.CurrentRentalsAdapter
 import com.app.ynvest_tube.adapters.PreviousRentalsAdapter
+import com.app.ynvest_tube.model.Rent
 import com.app.ynvest_tube.model.UserDetailsResponse
 import com.app.ynvest_tube.refresher.DataRefresher
 import com.app.ynvest_tube.refresher.UserDetailsSubscriber
@@ -45,7 +46,10 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun userDetailsObtained(userDetails: UserDetailsResponse) {
+    private fun userDetailsObtained(
+        previousUserDetails: UserDetailsResponse?,
+        userDetails: UserDetailsResponse
+    ) {
         userDetails.actualRents.sortBy { it.auction.rental_expiration_date }
         (currentRentals.adapter as CurrentRentalsAdapter).dataSet = userDetails.actualRents
         currentRentals.adapter?.notifyDataSetChanged()
@@ -66,9 +70,23 @@ class ProfileFragment : Fragment() {
             previousRentals.visibility = View.VISIBLE
             emptyPreviousRentals.visibility = View.GONE
         } else {
-
             previousRentals.visibility = View.GONE
             emptyPreviousRentals.visibility = View.VISIBLE
+        }
+
+        if (previousUserDetails != null) {
+            val currentIds = userDetails.actualRents.map { it.id }
+            previousUserDetails.actualRents.forEach {
+                if (!currentIds.contains(it.id)) {
+                    val title =
+                        if (it.auction.video.title.length > 15)
+                            it.auction.video.title.take(12) + "..."
+                        else
+                            it.auction.video.title
+                    val message = "Rental of $title has ended"
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }
