@@ -112,8 +112,6 @@ class AuctionActivity : AppCompatActivity() {
         dataRefresher.unsubscribeToUserEndpoint("userCashInAuction")
         Toast.makeText(this, "Auction has ended", Toast.LENGTH_SHORT).show()
         finish()
-
-        // todo: make sure to call refresh so the auction does not appear on the list
     }
 
     private fun requestFailed() {
