@@ -59,6 +59,12 @@ class AuctionActivity : AppCompatActivity() {
             scheduledUpdateTime -= scheduledUpdateTime % 1_000_000_000
             scheduledUpdateTime += 1_000_000
             while (true) {
+                if (auctionExpiration != null) {
+                    if (auctionExpiration!!.secondsLeft <= 0) {
+                        finish()
+                    }
+                }
+
                 runOnUiThread {
                     auctionExpirationTextView?.text = auctionExpiration?.timeLeft
                 }

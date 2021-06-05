@@ -73,4 +73,10 @@ class RelativeDate(dateStr: String) {
                 }
             }
         }
+
+    val secondsLeft: Long
+        get() {
+            val currentDate = ZonedDateTime.now()
+            return ChronoUnit.SECONDS.between(currentDate, date)
+        }
 }
