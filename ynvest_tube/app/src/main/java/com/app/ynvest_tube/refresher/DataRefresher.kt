@@ -1,12 +1,7 @@
 package com.app.ynvest_tube.refresher
 
 import android.content.Context
-import android.widget.TextView
 import android.widget.Toast
-import com.app.ynvest_tube.R
-import com.app.ynvest_tube.adapters.AuctionsAdapter
-import com.app.ynvest_tube.adapters.CurrentRentalsAdapter
-import com.app.ynvest_tube.adapters.PreviousRentalsAdapter
 import com.app.ynvest_tube.model.Auction
 import com.app.ynvest_tube.model.AuctionDetailsResponse
 import com.app.ynvest_tube.model.User
@@ -25,6 +20,9 @@ class DataRefresher {
         private var auctionListSubscribers = mutableMapOf<String, AuctionListSubscriber>()
         private var auctionSubscribers = mutableMapOf<String, AuctionSubscriber>()
 
+        private var previousAuctions = ArrayList<Auction>()
+        private var previousUserDetails: UserDetailsResponse? = null
+
         var toastContext: Context? = null
     }
 
@@ -33,7 +31,7 @@ class DataRefresher {
     fun startRefresher() {
         repository = Repository()
 
-        refreshTask = Thread(Runnable {
+        refreshTask = Thread {
             while (true) {
                 if (userSubscribers.any())
                     repository!!.getUser(::userObtained, ::requestFailed)
@@ -54,7 +52,7 @@ class DataRefresher {
 
                 sleep(refreshRateInMilis)
             }
-        })
+        }
 
         refreshTask.start()
     }
@@ -65,13 +63,13 @@ class DataRefresher {
         repository?.getUser(::userObtained, ::requestFailed)
     }
 
-    fun subscribeToUserDetailsEndpoint(key: String, successful: (UserDetailsResponse) -> Unit) {
+    fun subscribeToUserDetailsEndpoint(key: String, successful: (UserDetailsResponse?, UserDetailsResponse) -> Unit) {
         userDetailsSubscribers[key] = UserDetailsSubscriber(successful)
 
         repository?.getUserDetails(::userDetailsObtained, ::requestFailed)
     }
 
-    fun subscribeToAuctionListEndpoint(key: String, successful: (ArrayList<Auction>) -> Unit) {
+    fun subscribeToAuctionListEndpoint(key: String, successful: (ArrayList<Auction>, ArrayList<Auction>) -> Unit) {
         auctionListSubscribers[key] = AuctionListSubscriber(successful)
 
         repository?.getActionList(::auctionListObtained, ::requestFailed)
@@ -109,8 +107,9 @@ class DataRefresher {
 
     private fun auctionListObtained(auctions: ArrayList<Auction>) {
         for (subscriber in auctionListSubscribers.values) {
-            subscriber.successful(auctions)
+            subscriber.successful(previousAuctions, auctions)
         }
+        previousAuctions = auctions
     }
 
     private fun userObtained(user: User) {
@@ -121,8 +120,9 @@ class DataRefresher {
 
     private fun userDetailsObtained(userDetails: UserDetailsResponse) {
         for (subscriber in userDetailsSubscribers.values) {
-            subscriber.successful(userDetails)
+            subscriber.successful(previousUserDetails, userDetails)
         }
+        previousUserDetails = userDetails
     }
 
     private fun requestFailed() {
