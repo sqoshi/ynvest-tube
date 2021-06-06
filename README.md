@@ -30,7 +30,7 @@ an auction item they don't even want to rent, just to make it difficult for othe
 
 ### Demo
   
-![](.README_MEDIA/ynvest_tube_demo.gif)
+![](ynvest_tube_demo.gif)
 
 ### Server
 
