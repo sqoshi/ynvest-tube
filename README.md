@@ -1,7 +1,6 @@
 # ynvest-tube
 
 <div align="center" style="display: flex;flex-direction: row">
-  <p>ynvest-tube</p>
   <img src="ynvest_tube/app/src/main/ynvest_tube_logo-playstore.png" width="100"/>
 </div>
 
@@ -34,7 +33,7 @@ an auction item they don't even want to rent, just to make it difficult for othe
 
   <p>
   
-    ![](.README_MEDIA/ynvest_tube_demo.gif)
+  ![](.README_MEDIA/ynvest_tube_demo.gif)
   
   </p>
 
