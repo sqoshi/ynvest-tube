@@ -29,15 +29,9 @@ an auction item they don't even want to rent, just to make it difficult for othe
 ## General
 
 ### Demo
-<div align="center" style="display: flex;flex-direction: row">
-
-  <p>
   
-  ![](.README_MEDIA/ynvest_tube_demo.gif)
-  
-  </p>
+![](.README_MEDIA/ynvest_tube_demo.gif)
 
-</div>
 ### Server
 
 Application communicates with server written in `Django`, `Python`. List of endpoints, periodic tasks and more details are
